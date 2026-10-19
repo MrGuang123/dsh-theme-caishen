@@ -57,11 +57,24 @@ export function checkPromptCards(source) {
 	}
 	const zh = getDefaultPromptCards((key) => LOCALES.zh[key]);
 	const en = getDefaultPromptCards((key) => LOCALES.en[key]);
-	assert.equal(zh.map((card) => card.id).join(","), "cost,debt,report,merge");
-	assert.equal(zh.map((card) => card.icon).join(","), "cost,debt,report,merge");
-	assert.equal(zh.map((card) => card.tone).join(","), "red,green,red,green");
-	assert.equal(zh[0].title, LOCALES.zh["card.cost.title"]);
-	assert.equal(en[0].title, LOCALES.en["card.cost.title"]);
+	const defaultIds = "debug,feature,review,tests,explain,refactor,performance,summary";
+	assert.equal(zh.map((card) => card.id).join(","), defaultIds);
+	assert.equal(en.map((card) => card.id).join(","), defaultIds);
+	assert.equal(zh.map((card) => card.icon).join(","), "🐞,🛠️,🔍,🧪,📖,🧹,⚡,📝");
+	assert.equal(zh.map((card) => card.tone).join(","), "red,gold,blue,green,teal,purple,rose,brown");
+	assert.equal(zh[0].title, LOCALES.zh["card.debug.title"]);
+	assert.equal(en[0].title, LOCALES.en["card.debug.title"]);
+	for (const [locale, cards] of [["zh", zh], ["en", en]]) {
+		const normalized = normalizePromptCards(cards);
+		assert.equal(normalized.ok, true, `all eight ${locale} defaults must be valid editable cards`);
+		assert.deepEqual(plain(normalized.cards), plain(cards), `normalization must preserve all ${locale} default fields`);
+		for (const card of cards) {
+			for (const field of ["title", "tag", "desc", "prompt"]) {
+				assert.equal(card[field], LOCALES[locale][`card.${card.id}.${field}`], `${card.id}.${field} must use the selected locale`);
+				assert.ok(card[field].trim(), `${locale} ${card.id}.${field} must be present`);
+			}
+		}
+	}
 	assert.notEqual(zh[0].prompt, en[0].prompt, "default prompts must follow the current locale");
 	const fresh = getDefaultPromptCards((key) => LOCALES.zh[key]);
 	assert.notEqual(fresh, zh);
@@ -72,6 +85,30 @@ export function checkPromptCards(source) {
 	assert.equal(env.state.writes, 0, "reading defaults must not persist or freeze the active locale");
 	assert.equal(env.state.added, 0, "creating a store must not attach a global listener");
 
+	// Old saved libraries are user data, even when their ids match retired defaults.
+	const legacyCards = [
+		{ id: "merge", icon: "🔍", tone: "blue", tag: "", title: "我的合并检查", desc: "", prompt: "只检查我选定的变更。\n  保留缩进和尾部空格。  " },
+		{ id: "cost", icon: "cost", tone: "brown", tag: "节省时间", title: "定制性能排查", desc: "保留既有简介", prompt: "请分析指定慢请求。" },
+		{ id: "report", icon: "📝", tone: "purple", tag: "个人模板", title: "本周进展", desc: "以事实为依据", prompt: "整理已完成事项和待办。" },
+		{ id: "debt", icon: "debt", tone: "teal", tag: "局部调整", title: "我的重构任务", desc: "只处理明确范围", prompt: "先解读模块，再提出局部重构方案。" },
+	];
+	const legacyRaw = JSON.stringify(legacyCards);
+	const legacyEnv = harness(source, legacyRaw);
+	const legacyStore = legacyEnv.mod.createPromptCardStore();
+	assert.deepEqual(plain(legacyStore.get()), legacyCards, "an existing customized four-card library must retain order, text, icons, colors and empty optional fields");
+	assert.equal(legacyEnv.state.writes, 0, "loading old cards must not migrate or overwrite storage");
+	const legacySnapshot = legacyStore.get();
+	const stopLegacy = legacyStore.subscribe(() => {});
+	getDefaultPromptCards((key) => LOCALES.en[key]);
+	assert.equal(legacyStore.get(), legacySnapshot, "new locale defaults must not replace the existing library");
+	assert.equal(legacyEnv.stored(), legacyRaw, "the original persisted library must remain byte-for-byte unchanged on load");
+	assert.equal(legacyEnv.state.writes, 0);
+	stopLegacy();
+	const emptyEnv = harness(source, "[]");
+	const emptyStore = emptyEnv.mod.createPromptCardStore();
+	assert.deepEqual(plain(emptyStore.get()), [], "a previously emptied library must stay empty after default changes");
+	assert.equal(emptyEnv.state.writes, 0, "loading an intentionally empty library must not save defaults");
+
 	const custom = {
 		id: "custom-123", icon: "🧪", tone: "green",
 		title: "  测试计划  ", tag: "  先测后发  ", desc: "  覆盖关键路径  ",
@@ -80,13 +117,13 @@ export function checkPromptCards(source) {
 	const addition = [...zh, custom];
 	assert.deepEqual(plain(store.save(addition)), { ok: true });
 	assert.equal(env.state.writes, 1, "a complete card list must persist in one atomic write");
-	assert.equal(store.get().length, 5);
-	assert.equal(store.get()[4].title, "测试计划");
-	assert.equal(store.get()[4].tag, "先测后发");
-	assert.equal(store.get()[4].desc, "覆盖关键路径");
-	assert.equal(store.get()[4].prompt, custom.prompt, "prompt whitespace and newlines must remain verbatim");
+	assert.equal(store.get().length, 9);
+	assert.equal(store.get()[8].title, "测试计划");
+	assert.equal(store.get()[8].tag, "先测后发");
+	assert.equal(store.get()[8].desc, "覆盖关键路径");
+	assert.equal(store.get()[8].prompt, custom.prompt, "prompt whitespace and newlines must remain verbatim");
 	assert.equal(custom.title, "  测试计划  ", "normalization must not mutate the submitted draft");
-	assert.ok(Object.isFrozen(store.get()) && Object.isFrozen(store.get()[4]));
+	assert.ok(Object.isFrozen(store.get()) && Object.isFrozen(store.get()[8]));
 	const savedSnapshot = store.get();
 	assert.equal(store.get(), savedSnapshot);
 	assert.deepEqual(plain(createPromptCardStore().get()), plain(savedSnapshot), "reload must restore saved cards");
@@ -95,10 +132,10 @@ export function checkPromptCards(source) {
 
 	const edited = savedSnapshot.map((card) => card.id === custom.id ? { ...card, title: "已修改", prompt: "updated\n  prompt" } : card);
 	assert.deepEqual(plain(store.save(edited)), { ok: true });
-	assert.equal(createPromptCardStore().get()[4].title, "已修改", "editing must survive reload");
-	assert.equal(createPromptCardStore().get()[4].prompt, "updated\n  prompt");
-	assert.deepEqual(plain(store.save(store.get().filter((card) => card.id !== "debt"))), { ok: true });
-	assert.equal(createPromptCardStore().get().some((card) => card.id === "debt"), false, "deletion must survive reload");
+	assert.equal(createPromptCardStore().get()[8].title, "已修改", "editing must survive reload");
+	assert.equal(createPromptCardStore().get()[8].prompt, "updated\n  prompt");
+	assert.deepEqual(plain(store.save(store.get().filter((card) => card.id !== "review"))), { ok: true });
+	assert.equal(createPromptCardStore().get().some((card) => card.id === "review"), false, "deletion must survive reload");
 	assert.deepEqual(plain(store.save([])), { ok: true });
 	assert.equal(env.stored(), "[]");
 	assert.ok(Array.isArray(store.get()) && store.get().length === 0, "zero cards must not fall back to defaults");
@@ -139,7 +176,7 @@ export function checkPromptCards(source) {
 	assert.equal(validateCard({ ...base, tag: "", desc: "" }).ok, true);
 	for (const invalid of [null, false, "card", [], 1]) assert.equal(validateCard(invalid).error, "object");
 	assert.equal(validateCard({ ...base, extra: "ignored" }).card.extra, undefined, "unknown fields must not enter persisted records");
-	assert.equal(normalizePromptCards([base, { ...base, id: " cost " }]).error, "duplicate-id");
+	assert.equal(normalizePromptCards([base, { ...base, id: ` ${base.id} ` }]).error, "duplicate-id");
 	assert.equal(normalizePromptCards(Array.from({ length: 128 }, (_, index) => ({ ...base, id: `card-${index}` }))).ok, true);
 	assert.equal(normalizePromptCards(Array.from({ length: 129 }, (_, index) => ({ ...base, id: `card-${index}` }))).error, "cards");
 	for (const invalid of [null, {}, "[]", false]) assert.equal(normalizePromptCards(invalid).error, "cards");
@@ -157,7 +194,10 @@ export function checkPromptCards(source) {
 	// Ordering is an explicit draft operation: keep every card field and write only on save.
 	const orderEnv = harness(source);
 	const orderStore = orderEnv.mod.createPromptCardStore();
-	const orderCards = Object.freeze(zh.map((card) => Object.freeze({ ...card })));
+	const orderCards = Object.freeze(["cost", "debt", "report", "merge"].map((id) => Object.freeze({
+		id, icon: id, tone: id === "debt" || id === "merge" ? "green" : "red",
+		tag: "旧版标签", title: `旧版 ${id}`, desc: "独立排序测试数据", prompt: `保留旧版 ${id} 的内容。`,
+	})));
 	const orderBefore = plain(orderCards);
 	const ids = (cards) => cards.map((card) => card.id).join(",");
 	const assertFieldsPreserved = (cards) => {
@@ -304,7 +344,7 @@ export function checkPromptCards(source) {
 	stop();
 	assert.equal(shared.state.added, 2);
 	assert.equal(shared.state.removed, 2);
-	return "prompt cards — localized defaults, persistent CRUD and ordering, theme colors, validation, storage failures and cross-tab cleanup";
+	return "prompt cards — eight localized R&D defaults, existing-library preservation, persistent CRUD and ordering, theme colors, validation, storage failures and cross-tab cleanup";
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

@@ -55,11 +55,11 @@ git push -u origin main
 
 如果已配置 `origin`，先核对现有地址，不重复添加。以上命令假设当前分支为 `main`，分支名称不同则使用实际名称。
 
-发布 `0.1.1` 时，版本号与标签保持对应：
+发布 `0.1.2` 时，版本号与标签保持对应：
 
 ```bash
-git tag -a v0.1.1 -m '财神打工版 v0.1.1'
-git push origin v0.1.1
+git tag -a v0.1.2 -m '财神打工版 v0.1.2'
+git push origin v0.1.2
 ```
 
 后续版本修改 `package.json.version`、发布记录和文档中的示例版本，再创建新标签；不要移动已经对外分享的标签。
@@ -69,7 +69,7 @@ git push origin v0.1.1
 在隔离的测试环境中，再使用公开地址安装一次：
 
 ```bash
-dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.1.1'
+dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.1.2'
 ```
 
 `web` 应替换为实际 CLI profile。桌面端用户建议在 DSH「插件」→「添加插件」填同一地址。确认下载、版本识别、启用和素材加载成功，再把带标签的地址分享给其他用户。

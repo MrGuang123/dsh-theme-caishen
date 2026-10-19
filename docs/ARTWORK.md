@@ -11,7 +11,7 @@
 | `caishen-assets/images/caishen-scene-lettered.webp` | 单张财神办公场景，显示器数据、电脑标记和书名在同一张图中 |
 | `caishen-assets/images/gold-ingot.webp` | 侧栏与工作区使用的金元宝 |
 | `caishen-assets/images/banner-light.webp`、`banner-dark.webp` | 首页浅色与深色横幅背景 |
-| `caishen-assets/icons/card-*.svg` | 四种默认卡片图标 |
+| `caishen-assets/icons/card-*.svg` | 四种预设卡片图标，继续兼容旧版卡片；新的研发默认卡片使用 emoji |
 | `caishen-assets/decor/paper-texture.png`、`decor-coin.svg` | 纸纹与金币装饰 |
 | `caishen-extra-assets/images/merit-badge.webp` | 仅含“功德”的按钮底图，`+1` 由页面文字渲染 |
 | `caishen-extra-assets/images/logo-shun.webp` | 顶部“顺”字印章 |
