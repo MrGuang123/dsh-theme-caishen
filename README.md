@@ -33,19 +33,19 @@
 2. 填写以下地址，点击「安装」：
 
    ```text
-   git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.1.0
+   git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.1.1
    ```
 
 3. 安装完成后点击「立即启用」。如 DSH 提示需要重启，按提示操作。
 
-`v0.1.0` 标签推送后，该地址才能安装。推荐使用带版本标签的地址，便于复现问题和回退；直接使用仓库地址会跟随默认分支的内容。
+推荐使用带版本标签的地址，便于复现问题和回退；直接使用仓库地址会跟随默认分支的内容。
 
 ### 使用命令行安装
 
 使用 DSH 的插件命令，安装到你准备使用的 profile：
 
 ```bash
-dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.1.0'
+dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.1.1'
 ```
 
 将 `web` 换成实际使用的 CLI profile 名称；桌面端用户建议直接从「插件」页面安装。随后按命令提示完成操作，并在 DSH「插件」页面确认本主题已启用。无需自行运行 `pnpm add` 或手工修改 profile 文件。
@@ -67,9 +67,17 @@ dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishe
 
 ## 更新、停用和卸载
 
-- **更新**：查看新版本说明，在「插件」页面卸载旧包，再用新标签地址重新安装，例如将 `#v0.1.0` 换为实际发布的新版本。主题不提供自动更新。
+- **更新**：查看新版本说明，在「插件」页面卸载旧包，再用发布说明中的新标签地址重新安装。主题不提供自动更新。
 - **暂时停用**：关闭整个「财神打工版」组合包，按 DSH 提示刷新或重启，恢复内置界面。请不要只关闭其中的 `theme-caishen` 组件行，否则组合包中关闭官方品牌的补丁仍会生效。
 - **卸载**：在「插件」页面移除 `dsh-theme-caishen`。插件不主动清理浏览器中的自定义卡片与功德计数。
+
+## 跟随系统时为什么白天也可能显示深色
+
+「跟随系统」由 DSH 读取系统当前的实际外观，不按白天或夜晚直接判断。本主题仅提供浅色与深色配色，不修改系统外观或 DSH 的外观设置。
+
+macOS 27 的「自动」外观会参考夜览（Night Shift）日程；未设置日程时参考日出日落，并且至少空闲一分钟才切换。系统当前仍处于深色时，DSH 和本主题随之显示深色属于正常表现。详见 [Apple 外观设置说明](https://support.apple.com/en-ie/guide/mac-help/mchlp1225/27/mac/27)。
+
+如希望 DSH 始终显示浅色，可在 DSH「设置 → 外观」选择「浅色」。验证系统同步时，可暂时将 macOS「系统设置 → 外观」改为「浅色」，同时让 DSH 保持「跟随系统」；界面应随之变浅。若系统已经明确切为浅色而 DSH 仍深色，请在 Issues 中附上系统与 DSH 的外观状态及版本，继续定位宿主同步问题。
 
 ## 兼容性与数据
 
