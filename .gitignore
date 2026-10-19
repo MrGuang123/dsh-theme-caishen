@@ -1,0 +1,24 @@
+# Local development and generated release archives
+node_modules/
+output/
+dist/
+coverage/
+*.tgz
+*.log
+.npm/
+
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+.dsh/
+.codex/
+.agents/
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini

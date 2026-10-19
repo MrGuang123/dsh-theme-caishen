@@ -1,0 +1,12 @@
+# Bundle layer: this package is its own host row. The row only exists so the
+# Loader has a package to scan; the visible work happens in ./lib/client.js.
+#
+# The shipped brand plugin owns the two sidebar brand slots with a plain
+# registration. A skin that replaces the wordmark disables that cosmetic row
+# first; our own occupants then own the rail and the expanded row.
+- id: ui-brand-official
+  name: "@deepseek-ai/dsh-client-ui-brand-official"
+  disabled: true
+- insert:
+    - id: theme-caishen
+      name: dsh-theme-caishen

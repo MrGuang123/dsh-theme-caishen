@@ -1,0 +1,65 @@
+{
+  "name": "dsh-theme-caishen",
+  "version": "0.1.0",
+  "private": true,
+  "description": "财神打工版 — a red-and-gold DSH theme with light/dark palettes, an editable prompt library and a merit easter egg",
+  "author": "MrGuang123",
+  "license": "MIT",
+  "homepage": "https://github.com/MrGuang123/dsh-theme-caishen#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrGuang123/dsh-theme-caishen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MrGuang123/dsh-theme-caishen/issues"
+  },
+  "keywords": ["dsh-plugin", "dsh", "deepseek-harness", "theme", "caishen", "prompt-library"],
+  "engines": {
+    "dsh": "0.2.1-rc.2"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/client.js && node scripts/check.mjs",
+    "check:package": "node scripts/package-check.mjs",
+    "check:release": "npm run check && npm run check:package"
+  },
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./tokens.json": "./tokens.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "caishen-assets",
+    "caishen-extra-assets",
+    "tokens.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "docs"
+  ],
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-theme",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    }
+  }
+}
