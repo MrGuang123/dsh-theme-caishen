@@ -1,0 +1,11 @@
+.caishen-scope { padding: 12px; margin-bottom: 14px; border: 1px solid var(--dsw-alias-border-l2); border-radius: 12px; background: var(--dsw-alias-bg-layer-2); }
+.caishen-scope select { max-width: 100%; }
+.caishen-merit-panel { width: min(560px, calc(100vw - 24px)); }
+.caishen-merit-panel__body { min-height: 0; padding: 0 18px 18px; overflow: auto; line-height: 1.6; }
+.caishen-merit-panel__body h4 { margin: 0 0 8px; font-size: 1em; }
+.caishen-merit-panel__body p { overflow-wrap: anywhere; }
+.caishen-merit__notice { color: inherit; }
+.caishen-merit-entry { font-size: .8rem; }
+@media (max-width: 760px) { .caishen-status { display: none; } }
+
+.caishen-scope__path { overflow-wrap: anywhere; font-size: .8rem; color: var(--dsw-alias-label-secondary); }

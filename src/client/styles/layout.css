@@ -1,0 +1,61 @@
+/* Responsive safety is shared by automatic, full and explicit compact modes. */
+body[data-caishen-layout="compact"] .caishen-hero__banner,
+body[data-caishen-illustrations="off"] .caishen-hero__banner { padding: 14px 18px; }
+body[data-caishen-layout="compact"] .caishen-hero__grid,
+body[data-caishen-illustrations="off"] .caishen-hero__grid { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+body[data-caishen-layout="compact"] .caishen-hero__art-wrap,
+body[data-caishen-illustrations="off"] .caishen-hero__art-wrap,
+body[data-caishen-layout="compact"] .caishen-hero__hint,
+body[data-caishen-focus="on"] .caishen-hero__banner { display: none; }
+body[data-caishen-layout="compact"] .caishen-hero__title { font-size: 1.5rem; margin-top: 6px; }
+body[data-caishen-layout="compact"] .caishen-hero__subtitle { margin-top: 6px; }
+.caishen-hero .caishen-card { min-height: 132px; padding: 12px; border-radius: 14px; box-shadow: none; }
+.caishen-hero .caishen-card__icon { width: 34px; height: 34px; }
+.caishen-hero .caishen-card__title { font-size: 1rem; }
+.caishen-hero .caishen-card__desc { font-size: .8rem; }
+.caishen-library .caishen-card { min-width: min(100%, 12rem); }
+.caishen-card__title { white-space: normal; overflow-wrap: anywhere; }
+.caishen-card__edit { position: static; align-self: flex-end; margin-top: 8px; }
+.caishen-library .caishen-card__desc { padding-inline-end: 0; }
+.caishen-hero .caishen-library__hint { display: none; }
+
+.caishen-input-accessories { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.caishen-prompt-entry { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 36px; }
+.caishen-prompt-entry > svg { flex: none; }
+@container (max-width: 680px) {
+  .caishen-input-accessories .caishen-entry-label,
+  .caishen-input-accessories .caishen-fortune-meter { display: none; }
+  .caishen-input-accessories .caishen-prompt-entry { padding: 7px; }
+}
+@media (max-width: 600px) {
+  .caishen-input-accessories .caishen-entry-label,
+  .caishen-input-accessories .caishen-fortune-meter { display: none; }
+}
+@container caishen-home (max-width: 820px) {
+  body[data-caishen-layout="auto"] .caishen-hero__grid { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  body[data-caishen-layout="auto"] .caishen-hero__art-wrap { display: none; }
+  body[data-caishen-layout="auto"] .caishen-hero__banner { padding: 16px 20px; }
+  body[data-caishen-layout="auto"] .caishen-hero__title { font-size: 1.6rem; }
+}
+@container caishen-home (max-width: 760px) {
+  .caishen-hero__grid { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .caishen-hero__banner { padding: 14px 18px; }
+  .caishen-hero__art-wrap, .caishen-hero__hint { display: none; }
+  .caishen-hero__title { font-size: 1.5rem; }
+  .caishen-library .caishen-card { flex-basis: calc((100% - 12px) / 2); min-width: min(100%, 11rem); }
+  .caishen-library__controls { margin-inline-start: 0; }
+}
+@media (max-height: 700px) {
+  .caishen-hero__grid { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .caishen-hero__banner { padding: 12px 18px; }
+  .caishen-hero__art-wrap, .caishen-hero__hint, .caishen-hero__footer { display: none; }
+  .caishen-hero__title { font-size: 1.5rem; margin-top: 4px; }
+  .caishen-hero__subtitle { margin-top: 6px; font-size: .875rem; }
+  .caishen-hero .caishen-card { min-height: 100px; }
+  .caishen-hero .caishen-card__top { display: none; }
+}
+@media (max-width: 380px) {
+  .caishen-hero__banner { padding: 12px; }
+  .caishen-hero__kicker { flex-wrap: wrap; }
+  .caishen-input-accessories .caishen-fortune-meter { display: none; }
+}

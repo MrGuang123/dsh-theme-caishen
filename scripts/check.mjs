@@ -16,6 +16,7 @@ import { checkPromptCards } from "./prompt-cards-check.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
+const css = await readFile(join(root, "lib/client.css"), "utf8");
 
 let registration;
 let styleRemoved = false;
@@ -40,7 +41,10 @@ globalThis.window = {
 };
 
 globalThis.document = {
-	createElement: () => style,
+	createElement: (tag) => {
+		assert.equal(tag, "link", "theme CSS must load from a separate stylesheet");
+		return style;
+	},
 	head: { append: () => {} },
 };
 
@@ -158,6 +162,7 @@ const expectedSlots = [
 	"conversation.session.header.utilities",
 	"conversation.input.right",
 	"settings.trigger",
+	"settings.section",
 ];
 assert.deepEqual(
 	registrations.map((entry) => entry.name).sort(),
@@ -173,23 +178,27 @@ assert.ok(
 );
 
 assert.equal(style.dataset.pluginCss, "dsh-theme-caishen", "stylesheet marker drifted");
-assert.ok(style.textContent.includes(".caishen-hero__banner"), "banner stylesheet missing");
-assert.ok(style.textContent.includes(".caishen-card"), "card stylesheet missing");
-assert.ok(style.textContent.includes("--dsw-radius-panel"), "radius scale missing");
+assert.equal(style.rel, "stylesheet", "theme must install a stylesheet link");
+assert.equal(style.href, "/theme-caishen/styles/client.css", "stylesheet route drifted");
+assert.equal(style.textContent, "", "CSS must not be embedded in the client JavaScript");
+assert.ok(css.includes(".caishen-hero__banner"), "banner stylesheet missing");
+assert.ok(css.includes(".caishen-card"), "card stylesheet missing");
+assert.ok(css.includes("--dsw-radius-panel"), "radius scale missing");
 assert.ok(
-	style.textContent.includes('[data-row-key^="workspace:"] > [class*="_folder"]::before') &&
-		style.textContent.includes('/theme-caishen/assets/images/gold-ingot.webp'),
+	css.includes('[data-row-key^="workspace:"] > [class*="_folder"]::before') &&
+		css.includes('/theme-caishen/assets/images/gold-ingot.webp'),
 	"workspace folder styling must use the detailed ingot",
 );
-assert.ok(!style.textContent.includes("http"), "stylesheet must not depend on remote assets");
+assert.ok(!css.includes("http"), "stylesheet must not depend on remote assets");
 assert.ok(
-	style.textContent.includes("/theme-caishen/assets/images/banner-light.webp"),
+	css.includes("/theme-caishen/assets/images/banner-light.webp"),
 	"banner artwork URL missing",
 );
 
 const clientSource = await readFile(join(root, "lib/client.js"), "utf8");
+assert.ok(!clientSource.includes(".caishen-hero__banner {"), "client bundle contains embedded CSS");
 console.log("ok — " + checkPromptCards(clientSource));
-assert.ok(clientSource.includes('asset("images/caishen-scene-lettered.webp")'), "lettered hero scene URL missing");
+assert.ok(clientSource.includes('asset("images/caishen-scene-lettered.webp")'), "original lettered hero scene URL missing");
 assert.ok(clientSource.includes('asset("icons/card-cost.svg")'), "card icon asset URL missing");
 
 function renderTree(node) {
@@ -211,7 +220,7 @@ assert.ok(
 );
 assert.ok(
 	meritNodes.some((node) => node.type === "img" && node.props.src.endsWith("/merit-badge.webp")),
-	"merit button must use the badge without a baked-in increment",
+	"Chinese merit must preserve the original red-and-gold artwork",
 );
 meritButton.props.onClick();
 assert.ok(
@@ -230,7 +239,7 @@ const heroNodes = renderSlot("conversation.input.dock", {
 const heroImages = heroNodes.filter((node) => node.type === "img");
 assert.ok(
 	heroImages.some((node) => node.props.src.endsWith("/caishen-scene-lettered.webp")),
-	"hero must render the integrated lettered scene",
+	"hero must preserve the original monitor and book lettering",
 );
 assert.ok(
 	heroImages.every((node) => !/\/(?:monitor-screen|book-stack)\.webp$/.test(node.props.src)),
@@ -245,11 +254,12 @@ assert.ok(
 	"the cloud mascot must be mounted beside the composer controls",
 );
 
-const hostSource = await readFile(join(root, "lib/index.js"), "utf8");
+const hostSource = await readFile(join(root, "lib/host/index.js"), "utf8");
 assert.ok(hostSource.includes('"/theme-caishen/assets"'), "host artwork route missing");
 assert.ok(hostSource.includes('"/theme-caishen/extra"'), "host extra artwork route missing");
-assert.ok(clientSource.includes('extra("images/logo-shun.webp")'), "header seal URL missing");
-assert.ok(clientSource.includes('extra("images/caishen-cloud-mascot.webp")'), "cloud mascot URL missing");
+assert.ok(hostSource.includes('"/theme-caishen/styles"'), "host stylesheet route missing");
+assert.ok(clientSource.includes('asset("images/logo-shun.webp")'), "header seal URL missing");
+assert.ok(clientSource.includes('asset("images/caishen-cloud-mascot.webp")'), "cloud mascot URL missing");
 
 for (const dispose of effects) dispose();
 assert.equal(styleRemoved, true, "stylesheet disposer must remove the injected style");
@@ -259,7 +269,7 @@ const enMeta = JSON.parse(await readFile(join(root, "locale/en.json"), "utf8"));
 assert.ok(zhMeta.meta.title && zhMeta.meta.description, "zh display metadata missing");
 assert.ok(enMeta.meta.title && enMeta.meta.description, "en display metadata missing");
 
-const iconPath = join(root, "icon.svg");
+const iconPath = join(root, pkg.exports["./icon"]);
 const icon = await readFile(iconPath, "utf8");
 const iconStat = await stat(iconPath);
 assert.ok(icon.trimStart().startsWith("<svg"), "icon must be an SVG document");
@@ -269,25 +279,23 @@ assert.ok(iconStat.size < 256 * 1024, "icon exceeds the 256 KiB limit");
 assert.ok(pkg.exports["./client"], "package must export ./client");
 assert.ok(pkg.exports["./locale/*.json"], "package must export locale dictionaries");
 assert.ok(pkg.exports["./icon"], "package must export ./icon");
-assert.ok(pkg.files.includes("caishen-assets"), "package must ship caishen-assets");
-assert.ok(pkg.files.includes("caishen-extra-assets"), "package must ship caishen-extra-assets");
+assert.ok(pkg.files.includes("assets/runtime"), "package must ship runtime artwork");
 for (const relative of [
-	"caishen-assets/images/caishen-scene-lettered.webp",
-	"caishen-assets/images/gold-ingot.webp",
-	"caishen-assets/images/banner-light.webp",
-	"caishen-assets/images/banner-dark.webp",
-	"caishen-assets/icons/card-cost.svg",
-	"caishen-assets/icons/card-debt.svg",
-	"caishen-assets/icons/card-report.svg",
-	"caishen-assets/icons/card-merge.svg",
-	"caishen-assets/logo-caishen.svg",
-	"caishen-assets/decor/paper-texture.png",
-	"caishen-extra-assets/images/logo-shun.webp",
-	"caishen-extra-assets/images/merit-badge.webp",
-	"caishen-extra-assets/images/caishen-avatar.webp",
-	"caishen-extra-assets/images/caishen-cloud-mascot.webp",
-	"caishen-extra-assets/images/speech-bubble.webp",
-	"caishen-extra-assets/images/red-envelope.webp",
+	"assets/runtime/images/caishen-scene.webp",
+	"assets/runtime/images/gold-ingot.webp",
+	"assets/runtime/images/banner-light.webp",
+	"assets/runtime/images/banner-dark.webp",
+	"assets/runtime/icons/card-cost.svg",
+	"assets/runtime/icons/card-debt.svg",
+	"assets/runtime/icons/card-report.svg",
+	"assets/runtime/icons/card-merge.svg",
+	"assets/runtime/decor/decor-coin.svg",
+	"assets/runtime/decor/paper-texture.png",
+	"assets/runtime/images/logo-shun.webp",
+	"assets/runtime/images/merit-badge.webp",
+	"assets/runtime/images/caishen-avatar.webp",
+	"assets/runtime/images/caishen-cloud-mascot.webp",
+	"assets/runtime/images/speech-bubble.webp",
 ]) {
 	const info = await stat(join(root, relative));
 	assert.ok(info.size > 0, `${relative} is missing or empty`);

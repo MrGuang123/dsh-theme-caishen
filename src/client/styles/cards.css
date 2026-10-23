@@ -1,0 +1,138 @@
+.caishen-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.caishen-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 150px;
+  padding: 15px 14px 13px;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--cs-gold) 30%, var(--dsw-alias-border-l2));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dsw-alias-bg-layer-1) 96%, transparent) 0%, color-mix(in srgb, var(--dsw-alias-bg-layer-2) 92%, transparent) 100%);
+  color: var(--dsw-alias-label-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 14px 28px -24px rgba(120, 70, 20, .55), inset 0 1px 0 rgba(255, 255, 255, .75);
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.caishen-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--cs-gold) 65%, transparent);
+  box-shadow: 0 16px 30px -20px rgba(120, 70, 20, .55);
+}
+.caishen-card:focus-visible {
+  outline: 2px solid var(--dsw-alias-state-business-primary);
+  outline-offset: 2px;
+}
+body[data-ds-dark-theme] .caishen-card {
+  background: linear-gradient(180deg, #2b1c14 0%, #241710 100%);
+  box-shadow: 0 14px 28px -22px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 220, 160, .06);
+}
+.caishen-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: 100%;
+}
+.caishen-card__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #c53a2e, #8f1d16);
+  box-shadow: inset 0 0 0 1px rgba(255, 222, 160, .42), 0 6px 12px -8px rgba(120, 30, 20, .5);
+}
+.caishen-card[data-tone="green"] .caishen-card__icon {
+  background: linear-gradient(145deg, #2f7d4f, #1f5c3a);
+}
+.caishen-card__icon img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.caishen-card__tag {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f9e2ad, #edc979);
+  color: #7a4a12;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+body[data-ds-dark-theme] .caishen-card__tag {
+  color: #3a2414;
+}
+.caishen-card[data-filled="true"] {
+  border-color: color-mix(in srgb, var(--dsw-alias-state-success-primary) 55%, transparent);
+}
+.caishen-card[data-filled="true"] .caishen-card__tag {
+  background: color-mix(in srgb, var(--dsw-alias-state-success-primary) 18%, transparent);
+  color: var(--dsw-alias-state-success-primary);
+}
+.caishen-card__title {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.caishen-card__desc {
+  display: -webkit-box;
+  margin-top: 4px;
+  padding-right: 26px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.caishen-card__arrow {
+  position: absolute;
+  right: 12px;
+  bottom: 11px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--cs-gold) 50%, transparent);
+  color: var(--cs-gold-ink);
+  transition: background .15s ease, border-color .15s ease, color .15s ease, transform .15s ease;
+}
+.caishen-card:hover .caishen-card__arrow {
+  transform: translateX(1px);
+  border-color: var(--cs-red);
+  background: var(--cs-red);
+  color: #fff7e6;
+}
+.caishen-hero__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 1px 0 2px;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11px;
+  letter-spacing: .04em;
+}
+.caishen-hero__footer::before,
+.caishen-hero__footer::after {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cs-gold) 60%, transparent));
+}
+.caishen-hero__footer::after {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cs-gold) 60%, transparent), transparent);
+}

@@ -1,0 +1,27 @@
+
+.caishen-cloud-mascot-wrap {
+  position: absolute;
+  inset-inline-end: calc(-1 * var(--cs-composer-mascot-size) - 14px);
+  bottom: -8px;
+  z-index: 2;
+  width: var(--cs-composer-mascot-size);
+  aspect-ratio: 500 / 441;
+  display: block;
+  pointer-events: none;
+}
+.caishen-input-accessories {
+  display: contents;
+}
+
+.caishen-cloud-mascot {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 14px 18px rgba(120, 70, 20, .28));
+}
+
+body[data-caishen-illustrations="off"] .caishen-cloud-mascot-wrap,
+body[data-caishen-focus="on"] .caishen-cloud-mascot-wrap { display: none; }
+@media (max-width: 1000px), (max-height: 620px) {
+  .caishen-cloud-mascot-wrap { display: none; }
+}

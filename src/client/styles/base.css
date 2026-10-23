@@ -1,0 +1,44 @@
+body {
+  --cs-serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Noto Serif SC", "Source Han Serif SC", serif;
+  --cs-brush: "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", "STSong", serif;
+  --cs-red: #b3261e;
+  --cs-red-deep: #8f1d16;
+  --cs-red-bright: #cf4334;
+  --cs-red-ink: #a51c15;
+  --cs-gold: #d9a441;
+  --cs-gold-soft: #f0d79b;
+  --cs-gold-ink: #8a5a12;
+  --cs-cream: #fff8ea;
+  --cs-ink: #3b2414;
+  --dsw-radius-xs: 5px;
+  --dsw-radius-sm: 9px;
+  --dsw-radius-md: 13px;
+  --dsw-radius-lg: 18px;
+  --dsw-radius-xl: 22px;
+  --dsw-radius-panel: 30px;
+}
+body[data-ds-dark-theme] {
+  --cs-red: #e05a4e;
+  --cs-red-deep: #b3261e;
+  --cs-red-bright: #f07364;
+  --cs-red-ink: #f3c46a;
+  --cs-gold: #e8b04b;
+  --cs-gold-soft: #f3d594;
+  --cs-gold-ink: #f0c36a;
+  --cs-cream: #2a1a12;
+  --cs-ink: #f7e8d2;
+}
+body ::selection {
+  background: color-mix(in srgb, #d9a441 42%, transparent);
+}
+.caishen-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

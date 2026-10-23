@@ -1,6 +1,6 @@
 {
   "name": "dsh-theme-caishen",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "private": true,
   "description": "财神打工版 — a red-and-gold DSH theme with light/dark palettes, an editable prompt library and a merit easter egg",
   "author": "MrGuang123",
@@ -20,7 +20,11 @@
   "type": "module",
   "main": "lib/index.js",
   "scripts": {
-    "check": "node --check lib/index.js && node --check lib/client.js && node scripts/check.mjs",
+    "build": "node scripts/build.mjs",
+    "check:build": "node scripts/build.mjs --check",
+    "check": "npm run check:build && node --check lib/index.js && node --check lib/client.js && node scripts/check.mjs && node scripts/safety-check.mjs && node scripts/data-safety-check.mjs && node scripts/library-safety-check.mjs && node scripts/transfer-check.mjs && node scripts/workflow-check.mjs && node scripts/appearance-check.mjs && node scripts/scopes-merit-check.mjs",
+    "check:browser": "node scripts/browser-check.mjs",
+    "check:host": "node scripts/check-host.mjs",
     "check:package": "node scripts/package-check.mjs",
     "check:release": "npm run check && npm run check:package"
   },
@@ -28,24 +32,21 @@
     ".": "./lib/index.js",
     "./client": "./lib/client.js",
     "./cordis.patch.yml": "./cordis.patch.yml",
-    "./tokens.json": "./tokens.json",
+    "./tokens.json": "./reference/tokens.json",
     "./locale/*.json": "./locale/*.json",
-    "./icon": "./icon.svg",
+    "./icon": "./assets/application/plugin/icon.svg",
     "./package.json": "./package.json"
   },
   "files": [
     "lib",
     "cordis.patch.yml",
     "locale/*.json",
-    "icon.svg",
-    "caishen-assets",
-    "caishen-extra-assets",
-    "tokens.json",
+    "assets/runtime",
+    "assets/application/plugin/icon.svg",
+    "reference/tokens.json",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md",
-    "docs",
-    "artwork/dock"
+    "CHANGELOG.md"
   ],
   "dsh": {
     "manifestVersion": 1,

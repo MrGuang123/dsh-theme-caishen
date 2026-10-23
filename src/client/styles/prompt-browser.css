@@ -1,0 +1,128 @@
+.caishen-prompt-entry {
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 8px;
+  padding: 5px 10px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.caishen-browser {
+  width: min(1000px, calc(100vw - 32px));
+}
+.caishen-browser[open] {
+  display: flex;
+  flex-direction: column;
+}
+.caishen-browser [hidden] { display: none !important; }
+.caishen-browser__body {
+  min-height: 0;
+  padding: 16px 24px 24px;
+  overflow-y: auto;
+}
+.caishen-browser__toolbar,
+.caishen-browser__filters,
+.caishen-browser__detail-heading,
+.caishen-browser__detail-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.caishen-browser__toolbar > label:first-child { flex: 1 1 220px; }
+.caishen-browser__toolbar > label { min-width: 0; }
+.caishen-browser__toolbar input,
+.caishen-browser__toolbar select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 36px;
+  max-width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 8px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+  font: inherit;
+}
+.caishen-browser__toolbar select { max-width: 210px; }
+.caishen-browser__filters { margin: 12px 0; }
+.caishen-browser [aria-pressed="true"] {
+  background: var(--dsw-alias-bg-layer-2);
+  border-color: var(--dsw-alias-label-secondary);
+}
+.caishen-browser__columns {
+  display: grid;
+  grid-template-columns: minmax(200px, .7fr) minmax(0, 1.3fr);
+  align-items: start;
+  gap: 20px;
+}
+.caishen-browser__results { position: sticky; top: 0; min-width: 0; }
+.caishen-browser__results ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 8px;
+  max-height: min(52vh, 550px);
+  overflow-y: auto;
+}
+.caishen-browser__results button {
+  display: grid;
+  width: 100%;
+  gap: 6px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 10px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+  padding: 12px;
+  text-align: start;
+  font: inherit;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.caishen-browser__results button span {
+  color: var(--dsw-alias-label-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.caishen-browser__detail {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 12px;
+  background: var(--dsw-alias-bg-layer-1);
+  overflow-wrap: anywhere;
+}
+.caishen-browser__detail-heading { align-items: start; justify-content: space-between; }
+.caishen-browser__detail-heading > div { flex: 1 1 200px; min-width: 0; }
+.caishen-browser__detail h4 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 17px; }
+.caishen-browser__detail h4 .caishen-card__icon { width: 28px; height: 28px; flex: none; }
+.caishen-browser__detail h5 { margin: 16px 0 8px; font-size: 13px; }
+.caishen-browser__detail-heading p { color: var(--dsw-alias-label-secondary); line-height: 1.6; }
+.caishen-browser__variables { display: grid; gap: 12px; margin-top: 16px; }
+.caishen-browser__preview {
+  padding: 12px;
+  max-height: 36vh;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+  line-height: 1.7;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 8px;
+  background: var(--dsw-alias-bg-base);
+}
+.caishen-browser__placeholder { padding: 40px 16px; color: var(--dsw-alias-label-secondary); text-align: center; }
+.caishen-browser__template-toggle { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.caishen-browser__template-toggle input { width: 18px; height: 18px; flex: none; }
+.caishen-browser :focus-visible,
+.caishen-prompt-entry:focus-visible { outline: 2px solid var(--dsw-alias-label-primary); outline-offset: 2px; }
+@media (max-width: 680px) {
+  .caishen-browser__body { padding: 12px; }
+  .caishen-browser__columns { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .caishen-browser__results { position: static; }
+  .caishen-browser__results ul { max-height: 185px; }
+  .caishen-browser__detail { padding: 12px; }
+}

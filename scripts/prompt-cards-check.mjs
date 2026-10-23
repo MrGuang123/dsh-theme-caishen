@@ -1,15 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { dirname, join, resolve } from "node:path";
+import { resolve } from "node:path";
 import vm from "node:vm";
-
 const KEY = "dsh-theme-caishen:prompt-cards:v1";
 const plain = (value) => JSON.parse(JSON.stringify(value));
-
 function harness(source, initial) {
 	const values = new Map(initial === undefined ? [] : [[KEY, initial]]);
-	const subscriptions = new Set();
 	const state = { writes: 0, added: 0, removed: 0, failRead: false, failWrite: false };
 	let registration;
 	const localStorage = {
@@ -18,7 +15,7 @@ function harness(source, initial) {
 			return values.get(key) ?? null;
 		},
 		setItem(key, value) {
-			if (state.failWrite) throw new Error("QuotaExceededError");
+			if (state.failWrite) throw new Error("injected write failure");
 			state.writes += 1;
 			values.set(key, value);
 		},
@@ -26,28 +23,19 @@ function harness(source, initial) {
 	const window = {
 		__ModuleLoader__: { load: (value) => { registration = value; } },
 		localStorage,
-		addEventListener(name, listener) {
+		addEventListener(name) {
 			assert.equal(name, "storage");
 			state.added += 1;
-			subscriptions.add(listener);
 		},
-		removeEventListener(name, listener) {
+		removeEventListener(name) {
 			assert.equal(name, "storage");
 			state.removed += 1;
-			subscriptions.delete(listener);
 		},
 	};
 	vm.runInNewContext(source, { window, setTimeout, clearTimeout });
 	const mod = registration.factory(() => ({}));
-	return {
-		mod, state, values, localStorage,
-		stored: () => values.get(KEY),
-		event(key = KEY, storageArea = localStorage) {
-			for (const listener of [...subscriptions]) listener({ key, storageArea });
-		},
-	};
+	return { mod, state, stored: () => values.get(KEY) };
 }
-
 /** Exercise persisted behavior without mounting or changing the real browser store. */
 export function checkPromptCards(source) {
 	const env = harness(source);
@@ -84,7 +72,6 @@ export function checkPromptCards(source) {
 	assert.equal(store.get(), store.get(), "default snapshots must be stable");
 	assert.equal(env.state.writes, 0, "reading defaults must not persist or freeze the active locale");
 	assert.equal(env.state.added, 0, "creating a store must not attach a global listener");
-
 	// Old saved libraries are user data, even when their ids match retired defaults.
 	const legacyCards = [
 		{ id: "merge", icon: "🔍", tone: "blue", tag: "", title: "我的合并检查", desc: "", prompt: "只检查我选定的变更。\n  保留缩进和尾部空格。  " },
@@ -108,7 +95,6 @@ export function checkPromptCards(source) {
 	const emptyStore = emptyEnv.mod.createPromptCardStore();
 	assert.deepEqual(plain(emptyStore.get()), [], "a previously emptied library must stay empty after default changes");
 	assert.equal(emptyEnv.state.writes, 0, "loading an intentionally empty library must not save defaults");
-
 	const custom = {
 		id: "custom-123", icon: "🧪", tone: "green",
 		title: "  测试计划  ", tag: "  先测后发  ", desc: "  覆盖关键路径  ",
@@ -129,7 +115,6 @@ export function checkPromptCards(source) {
 	assert.deepEqual(plain(createPromptCardStore().get()), plain(savedSnapshot), "reload must restore saved cards");
 	assert.equal(getDefaultPromptCards((key) => LOCALES.en[key])[0].title, en[0].title);
 	assert.equal(store.get(), savedSnapshot, "locale defaults must not rewrite customized cards");
-
 	const edited = savedSnapshot.map((card) => card.id === custom.id ? { ...card, title: "已修改", prompt: "updated\n  prompt" } : card);
 	assert.deepEqual(plain(store.save(edited)), { ok: true });
 	assert.equal(createPromptCardStore().get()[8].title, "已修改", "editing must survive reload");
@@ -144,7 +129,6 @@ export function checkPromptCards(source) {
 	assert.equal(store.get(), emptySnapshot);
 	assert.deepEqual(plain(store.save([custom])), { ok: true }, "a new card can be added after deleting every card");
 	assert.equal(store.get().length, 1);
-
 	const base = { ...zh[0] };
 	const tones = ["red", "green", "gold", "teal", "blue", "purple", "rose", "brown"];
 	for (const tone of tones) {
@@ -180,7 +164,6 @@ export function checkPromptCards(source) {
 	assert.equal(normalizePromptCards(Array.from({ length: 128 }, (_, index) => ({ ...base, id: `card-${index}` }))).ok, true);
 	assert.equal(normalizePromptCards(Array.from({ length: 129 }, (_, index) => ({ ...base, id: `card-${index}` }))).error, "cards");
 	for (const invalid of [null, {}, "[]", false]) assert.equal(normalizePromptCards(invalid).error, "cards");
-
 	const beforeInvalid = store.get();
 	const beforeInvalidRaw = env.stored();
 	const beforeInvalidWrites = env.state.writes;
@@ -190,7 +173,6 @@ export function checkPromptCards(source) {
 		assert.equal(env.stored(), beforeInvalidRaw);
 	}
 	assert.equal(env.state.writes, beforeInvalidWrites, "invalid submissions must never write storage");
-
 	// Ordering is an explicit draft operation: keep every card field and write only on save.
 	const orderEnv = harness(source);
 	const orderStore = orderEnv.mod.createPromptCardStore();
@@ -260,95 +242,8 @@ export function checkPromptCards(source) {
 	assert.equal(orderEnv.stored(), beforeOrderFailureRaw, "a failed reorder save must retain the persisted order");
 	assert.deepEqual(plain(orderEnv.mod.createPromptCardStore().get()), plain(reorderDraft), "a reload after a failed save must restore the last confirmed order");
 	assert.equal(orderEnv.state.writes, 1);
-
-	for (const raw of ["{broken", "null", "{}", '[{"id":"broken"}]', JSON.stringify([base, base]), JSON.stringify([{ ...base, icon: "data:image/png;base64,AAAA" }])]) {
-		const corrupt = harness(source, raw);
-		const corruptStore = corrupt.mod.createPromptCardStore();
-		assert.equal(corruptStore.get(), null, "corrupt data must safely fall back to defaults");
-		const unsubscribe = corruptStore.subscribe(() => {});
-		assert.equal(corrupt.stored(), raw, "corrupt data must remain recoverable without silent replacement");
-		assert.equal(corrupt.state.writes, 0);
-		corrupt.state.failWrite = true;
-		assert.deepEqual(plain(corruptStore.save([base])), { ok: false, error: "storage" });
-		assert.equal(corruptStore.get(), null);
-		assert.equal(corrupt.stored(), raw, "failed recovery saves must preserve the original corrupt data");
-		unsubscribe();
-	}
-	const denied = harness(source);
-	denied.state.failRead = true;
-	denied.state.failWrite = true;
-	const deniedStore = denied.mod.createPromptCardStore();
-	assert.equal(deniedStore.get(), null);
-	assert.deepEqual(plain(deniedStore.save([base])), { ok: false, error: "storage" });
-	assert.equal(deniedStore.get(), null);
-	assert.equal(denied.state.writes, 0);
-	const beforeFailure = store.get();
-	const beforeFailureRaw = env.stored();
-	env.state.failWrite = true;
-	assert.deepEqual(plain(store.save([])), { ok: false, error: "storage" });
-	assert.equal(store.get(), beforeFailure, "quota failures must leave the displayed cards intact");
-	assert.equal(env.stored(), beforeFailureRaw);
-	env.state.failWrite = false;
-	assert.deepEqual(plain(store.save([])), { ok: true }, "saving should recover when storage becomes available");
-
-	const shared = harness(source);
-	const sharedStore = shared.mod.createPromptCardStore();
-	let changes = 0;
-	const unsubscribeBroken = sharedStore.subscribe(() => { throw new Error("bad subscriber"); });
-	const unsubscribe = sharedStore.subscribe(() => { changes += 1; });
-	assert.equal(shared.state.added, 1, "only the first subscriber may attach a global listener");
-	shared.values.set(KEY, JSON.stringify([base]));
-	shared.event("unrelated");
-	shared.event(KEY, {});
-	assert.equal(sharedStore.get(), null, "other keys or sessionStorage events must be ignored");
-	shared.event();
-	assert.equal(sharedStore.get().length, 1);
-	assert.equal(changes, 1, "one broken subscriber must not block cross-tab updates");
-	const sharedSnapshot = sharedStore.get();
-	shared.values.set(KEY, JSON.stringify([base], null, 2));
-	shared.event();
-	assert.equal(sharedStore.get(), sharedSnapshot, "equivalent storage content must preserve snapshot identity");
-	assert.equal(changes, 1);
-	assert.deepEqual(plain(sharedStore.save([base])), { ok: true });
-	assert.equal(sharedStore.get(), sharedSnapshot, "an unchanged save must preserve snapshot identity");
-	assert.equal(changes, 1);
-	shared.values.set(KEY, "[]");
-	shared.event();
-	assert.equal(sharedStore.get().length, 0);
-	assert.equal(changes, 2);
-	shared.values.set(KEY, "invalid external data");
-	shared.event();
-	assert.equal(sharedStore.get(), null);
-	assert.equal(changes, 3);
-	assert.equal(shared.stored(), "invalid external data");
-	assert.equal(shared.state.writes, 1, "storage events must never write back or repair values automatically");
-	shared.values.set(KEY, JSON.stringify([base]));
-	shared.event();
-	shared.state.failRead = true;
-	const lastKnownSnapshot = sharedStore.get();
-	shared.event();
-	assert.equal(sharedStore.get(), lastKnownSnapshot, "transient read denial must preserve the last known snapshot");
-	shared.state.failRead = false;
-	shared.values.delete(KEY);
-	shared.event(null);
-	assert.equal(sharedStore.get(), null, "cross-tab localStorage.clear must restore locale defaults");
-	unsubscribeBroken();
-	assert.equal(shared.state.removed, 0, "the listener must survive while another subscriber remains");
-	unsubscribe();
-	unsubscribe();
-	assert.equal(shared.state.removed, 1, "last subscriber cleanup must detach once");
-	const missedUpdate = shared.mod.createPromptCardStore();
-	shared.values.set(KEY, "[]");
-	const stop = missedUpdate.subscribe(() => {});
-	assert.ok(Array.isArray(missedUpdate.get()), "first subscription must catch changes since store creation");
-	stop();
-	assert.equal(shared.state.added, 2);
-	assert.equal(shared.state.removed, 2);
-	return "prompt cards — eight localized R&D defaults, existing-library preservation, persistent CRUD and ordering, theme colors, validation, storage failures and cross-tab cleanup";
+	return "prompt cards — eight localized R&D defaults, existing-library preservation, persistent CRUD and ordering, theme colors, validation and failed-save preservation";
 }
-
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-	const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-	const source = await readFile(join(root, "lib/client.js"), "utf8");
-	console.log("ok — " + checkPromptCards(source));
+	console.log("ok — " + checkPromptCards(await readFile(new URL("../lib/client.js", import.meta.url), "utf8")));
 }

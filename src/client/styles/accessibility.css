@@ -1,0 +1,52 @@
+/* Targets grow with text. Disabled controls retain readable text and borders. */
+.caishen-editor :is(button, input:not([type="checkbox"]), select),
+.caishen-library :is(.caishen-card__edit, .caishen-library__add, .caishen-library__nav),
+.caishen-prompt-entry { min-height: 36px; height: auto; font-size: .875rem; line-height: 1.4; }
+.caishen-editor__close, .caishen-editor__icon, .caishen-editor__tone,
+.caishen-library__nav, .caishen-sort__move { min-width: 36px; min-height: 36px; }
+.caishen-editor__close { display: grid; place-items: center; padding: 0; font-size: 1.4rem; }
+.caishen-editor__tone { border-radius: 10px; }
+.caishen-library__add, .caishen-prompt-entry { padding: 7px 10px; white-space: normal; }
+.caishen-card__edit { min-width: 44px; }
+
+.caishen-editor :is(button, input, select, textarea):focus-visible,
+.caishen-library button:focus-visible, .caishen-prompt-entry:focus-visible, .caishen-merit:focus-visible,
+.caishen-browser__preview:focus-visible { outline: 2px solid var(--cs-focus); outline-offset: 2px; box-shadow: none; }
+.caishen-card:has(.caishen-card__use:focus-visible) { outline: 2px solid var(--cs-focus); outline-offset: -3px; }
+.caishen-editor :is(button, input, select):disabled,
+.caishen-library button:disabled { opacity: 1; color: var(--dsw-alias-label-secondary); border-color: var(--dsw-alias-border-l2); background: var(--dsw-alias-bg-layer-2); cursor: not-allowed; }
+.caishen-editor input, .caishen-editor textarea, .caishen-editor select,
+.caishen-editor__field, .caishen-transfer__hint, .caishen-editor__error,
+.caishen-editor__subtitle { font-size: .875rem; }
+.caishen-editor__subtitle, .caishen-editor__preview-hint, .caishen-library__hint,
+.caishen-card__desc, .caishen-library__empty { color: var(--dsw-alias-label-secondary); }
+.caishen-editor[open] { display: flex; flex-direction: column; max-height: calc(100dvh - 24px); overflow: auto; }
+.caishen-editor__form { min-height: 0; max-height: calc(100dvh - 24px); overflow: auto; }
+.caishen-editor__header, .caishen-editor__footer { padding: 14px 18px; }
+.caishen-editor__header > div { min-width: 0; }
+.caishen-editor__heading { font-size: 1.25rem; overflow-wrap: anywhere; }
+.caishen-editor__footer { overflow-wrap: anywhere; }
+.caishen-editor__footer > button { max-width: 100%; white-space: normal; }
+.caishen-editor__button { font-size: .875rem; }
+.caishen-card__icon img { max-width: 100%; max-height: 100%; }
+.caishen-sort__row { flex-wrap: wrap; }
+.caishen-sort__name { flex-basis: 120px; }
+.caishen-sort__actions { flex-wrap: wrap; max-width: 100%; }
+.caishen-editor__icon { flex: none; }
+.caishen-editor__preview .caishen-card__use { color: inherit; background: none; }
+@media (max-width: 600px) {
+  .caishen-templates__list { grid-template-columns: minmax(0, 1fr); }
+  .caishen-library__controls { margin-inline-start: 0; }
+  .caishen-editor__footer-spacer { display: none; }
+  .caishen-browser__toolbar > label { max-width: 100%; }
+  .caishen-browser__toolbar select { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.caishen-hero, .caishen-editor, .caishen-merit, .caishen-status) *,
+  .caishen-card, .caishen-merit { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .caishen-card:hover, .caishen-merit:hover, .caishen-merit:active { transform: none; }
+}
+@media (forced-colors: active) {
+  .caishen-card, .caishen-editor, .caishen-editor button, .caishen-prompt-entry { border: 1px solid ButtonText; }
+  .caishen-editor [aria-pressed="true"] { outline: 2px solid Highlight; }
+}

@@ -2,6 +2,14 @@
 
 工具：内置 image_gen，透明背景。PNG 保留生成原稿，WebP 为保留 alpha 的格式转换；未通过叠加独立书堆/屏幕修改场景。
 
+以下为既有素材的生成记录。本轮只整理目录和引用，没有重新生成图片。当前目录与旧新路径对应见 [素材清单](../assets/manifest.json)，素材职责见 [素材说明](ARTWORK.md)。
+
+| 记录 | PNG 原稿 | 页面使用文件 |
+| --- | --- | --- |
+| merit | `assets/source/images/merit-badge.png` | `assets/runtime/images/merit-badge.webp` |
+| scene | `assets/source/images/caishen-scene-lettered.png` | `assets/runtime/images/caishen-scene-lettered.webp` |
+| ingot | `assets/source/images/gold-ingot.png` | `assets/runtime/images/gold-ingot.webp` |
+
 ## merit
 
 Use case: precise-object-edit.

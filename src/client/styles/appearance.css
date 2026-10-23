@@ -1,0 +1,29 @@
+body {
+  --cs-accent: #a51c15; --cs-action-bg: #f2d18b; --cs-action-ink: #3b2414;
+  --cs-error: #9c241c; --cs-focus: #714506;
+}
+body[data-ds-dark-theme] { --cs-accent: #f3c46a; --cs-error: #ffaca2; --cs-focus: #f3d594; }
+body[data-caishen-palette="jade"] { --cs-accent: #236454; --cs-action-bg: #236454; --cs-action-ink: #fff8ec; --cs-focus: #236454; }
+body[data-ds-dark-theme][data-caishen-palette="jade"] { --cs-accent: #91d5b6; --cs-focus: #91d5b6; }
+body[data-caishen-palette="ink"] { --cs-accent: #34485e; --cs-action-bg: #34485e; --cs-action-ink: #fff8ec; --cs-focus: #34485e; }
+body[data-ds-dark-theme][data-caishen-palette="ink"] { --cs-accent: #b0c9e2; --cs-focus: #b0c9e2; }
+.caishen-editor__button--primary { background: var(--cs-action-bg); color: var(--cs-action-ink); border-color: var(--cs-accent); }
+.caishen-editor__error, .caishen-library__notice-error, .caishen-editor__button--danger { color: var(--cs-error); }
+.caishen-editor [aria-invalid="true"] { border-color: var(--cs-error); }
+.caishen-editor__button--danger { border-style: dashed; }
+.caishen-card__icon { border-radius: 10px; box-shadow: none; }
+.caishen-browser__detail .caishen-card__icon { background: var(--cs-icon-fill); }
+body[data-caishen-decoration="subtle"] .caishen-hero__footer,
+body[data-caishen-decoration="subtle"] .caishen-hero__art-caption { display: none; }
+body[data-caishen-decoration="none"] :is(.caishen-hero__footer, .caishen-header-brand__tag, .caishen-brand-name__tag, .caishen-hero__bubble, .caishen-status, .caishen-fortune-meter),
+body[data-caishen-eggs="off"] :is(.caishen-merit, .caishen-merit-entry, .caishen-status, .caishen-fortune-meter) { display: none; }
+body[data-caishen-decoration="none"] .caishen-card { box-shadow: none; }
+body[data-caishen-focus="on"] .caishen-header-brand { display: none; }
+body[data-caishen-focus="on"] .caishen-hero .caishen-card__top { display: none; }
+body[data-caishen-focus="on"] .caishen-hero .caishen-card { min-height: 100px; }
+.caishen-appearance { width: min(600px, calc(100vw - 24px)); }
+.caishen-appearance__body { display: grid; gap: 16px; padding: 0 20px 20px; min-height: 0; overflow: auto; }
+.caishen-appearance__options { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.caishen-appearance__toggle { display: flex; align-items: center; gap: 10px; font-size: .9rem; line-height: 1.5; }
+.caishen-editor .caishen-appearance__toggle input { width: 20px; height: 20px; min-height: 20px; flex: none; accent-color: var(--cs-accent); }
+.caishen-appearance__body > button { justify-self: start; }

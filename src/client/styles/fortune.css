@@ -1,0 +1,138 @@
+/* The plaque's tassel hangs below the shared 36px control row. Transparent
+   artwork margins never determine the alignment of the visible red plaque. */
+.caishen-merit {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  min-height: 2.25rem;
+  padding: .375rem .75rem;
+  border: 1px solid #dfaf54;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #c23927, #8f211a);
+  color: #fff2ce;
+  font: 650 .8125rem/1.3 var(--dsw-font-family, sans-serif);
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 #ffe4a666, 0 3px 8px #74220e26;
+  transition: filter .15s ease, transform .15s ease;
+}
+.caishen-merit:hover { filter: brightness(1.07); transform: translateY(-1px); }
+.caishen-merit:active { transform: scale(.97); }
+.caishen-merit__coin { display: inline-flex; flex: none; color: #ffd98a; }
+.caishen-merit__label { display: inline; }
+.caishen-merit__increment { position: relative; display: inline-block; }
+.caishen-merit--art {
+  width: 9.75rem;
+  height: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  box-shadow: none;
+  overflow: visible;
+}
+.caishen-merit__art {
+  position: absolute;
+  inset-inline-start: 0;
+  top: -.1875rem;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 1;
+  pointer-events: none;
+  user-select: none;
+}
+.caishen-merit--art .caishen-merit__increment {
+  position: absolute;
+  left: 54%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  color: #fff3d3;
+  font-family: var(--dsw-font-family, sans-serif);
+  font-size: 1.3125rem;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-shadow: 0 1px 2px #65160866;
+  pointer-events: none;
+}
+.caishen-merit__burst {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  color: #ffd98a;
+  font: inherit;
+  line-height: inherit;
+  pointer-events: none;
+  text-shadow: 0 1px 4px #0005;
+  animation: caishen-merit-burst .9s ease-out forwards;
+}
+.caishen-merit__notice {
+  position: absolute;
+  top: -.25rem;
+  inset-inline-end: .375rem;
+  display: grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #fff0bd;
+  border-radius: 50%;
+  background: #92291e;
+  color: #fff0bd;
+  font: 750 .75rem/1 sans-serif;
+}
+.caishen-merit-entry {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: .375rem;
+  box-sizing: border-box;
+  min-height: 2.25rem;
+  padding: .25rem .625rem .25rem .3125rem;
+  border: 1px solid #d5a653;
+  border-radius: .625rem;
+  background: linear-gradient(150deg, #a93625, #77231d);
+  color: #fff1cb;
+  font: 650 .8125rem/1.3 var(--dsw-font-family, sans-serif);
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 2px #f5ca7540, inset 0 1px 0 #ffe5b233, 0 2px 6px #74220e1a;
+  transition: filter .15s ease, transform .15s ease;
+}
+.caishen-merit-entry__seal {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.375rem;
+  height: 1.5rem;
+  border-radius: .25rem;
+  border: 1px solid #ffdf94;
+  background: linear-gradient(145deg, #ffdf8c, #d49a36);
+  color: #82291b;
+  box-shadow: inset 2px 0 0 #ae652d73;
+}
+.caishen-merit-entry__seal svg { width: 1rem; height: 1rem; }
+.caishen-merit-entry:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.caishen-merit-entry:active { transform: scale(.97); }
+.caishen-merit:focus-visible,
+.caishen-merit-entry:focus-visible { outline: 2px solid var(--cs-focus); outline-offset: 3px; }
+@keyframes caishen-merit-burst {
+  0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -32px) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .caishen-merit, .caishen-merit-entry { transition: none; }
+  .caishen-merit:hover, .caishen-merit:active,
+  .caishen-merit-entry:hover, .caishen-merit-entry:active { transform: none; }
+  .caishen-merit__burst { animation: none; }
+}
+@media (forced-colors: active) {
+  .caishen-merit, .caishen-merit-entry { border: 1px solid ButtonText; }
+}

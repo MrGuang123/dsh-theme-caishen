@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 1,
+  "description": "Caishen asset migration inventory. All file paths are relative to the repository root; runtime/ contains only browser dependencies.",
+  "runtimeRoot": "assets/runtime",
+  "runtimeUrlPrefix": "/theme-caishen/assets/",
+  "legacyUrlPrefixes": [
+    "/theme-caishen/assets/",
+    "/theme-caishen/extra/"
+  ],
+  "files": [
+    {
+      "oldPath": "artwork/dock/README.md",
+      "path": "assets/application/dock/README.md",
+      "role": "application",
+      "bytes": 3228,
+      "sha256": "df8170816d769adde2b3469a1ecd0e63aedc1e34a831fa19f010ae73fc946674",
+      "originalSha256": "51f9a5d2111bd73c545bd970f503a138dc3dbb4978ab03d9fa6cc011f781acad"
+    },
+    {
+      "oldPath": "artwork/dock/dsh-caishen-black-gold-v1.icns",
+      "path": "assets/application/dock/dsh-caishen-black-gold-v1.icns",
+      "role": "application",
+      "bytes": 2245086,
+      "sha256": "9444daa4740e7365e1688bc1b14bdf24b1436a025822dccbe214ebfc29faad6f"
+    },
+    {
+      "oldPath": "artwork/dock/dsh-caishen-black-gold-v1.png",
+      "path": "assets/application/dock/dsh-caishen-black-gold-v1.png",
+      "role": "application",
+      "bytes": 1715657,
+      "sha256": "d14f4a5a793a0e6cf966ac1fa4885bbe16f96d2977c155ef444b8fa62269b3d9"
+    },
+    {
+      "oldPath": "icon.svg",
+      "path": "assets/application/plugin/icon.svg",
+      "role": "application",
+      "bytes": 66037,
+      "sha256": "a82290e56569165a4ce071cca7e741122b4970039e12aa9f010ceca133d8900b"
+    },
+    {
+      "oldPath": "caishen-assets/decor/decor-cloud.svg",
+      "path": "assets/archive/decor/decor-cloud.svg",
+      "role": "archive",
+      "bytes": 807,
+      "sha256": "a17d2cc108e2ee841569738c4611b079278787fe1d5d1a2a026fcde52a1989bb"
+    },
+    {
+      "oldPath": "caishen-assets/decor/decor-envelope.svg",
+      "path": "assets/archive/decor/decor-envelope.svg",
+      "role": "archive",
+      "bytes": 842,
+      "sha256": "331fda34fad11e8da515d73751c0d8d33133bed7ae8ced30240fe89f77a9d40a"
+    },
+    {
+      "oldPath": "caishen-assets/decor/decor-ingot.svg",
+      "path": "assets/archive/decor/decor-ingot.svg",
+      "role": "archive",
+      "bytes": 718,
+      "sha256": "bdc7f43efa001aade08c0907b62ddc15912c16d64fc5f8aa05261796e6375d8d"
+    },
+    {
+      "oldPath": "caishen-extra-assets/svg/book-labels.svg",
+      "path": "assets/archive/icons/book-labels.svg",
+      "role": "archive",
+      "bytes": 469,
+      "sha256": "d2f146fc1e2032a14b693290b91398e7e7c0c5ee68dd313afef07d494b3d6d6f"
+    },
+    {
+      "oldPath": "caishen-extra-assets/svg/laptop-code.svg",
+      "path": "assets/archive/icons/laptop-code.svg",
+      "role": "archive",
+      "bytes": 284,
+      "sha256": "a59f49c771b28c30573b4753057076a7e5955b508e3780382dc6f3c06635f645"
+    },
+    {
+      "oldPath": "caishen-assets/logo-caishen.svg",
+      "path": "assets/archive/icons/logo-caishen.svg",
+      "role": "archive",
+      "bytes": 1286,
+      "sha256": "6c176a69e9002e921997255decfe0df137391a29d412b328cbbe910e5cf4adc4"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/book-stack.webp",
+      "path": "assets/archive/images/book-stack.webp",
+      "role": "archive",
+      "bytes": 38052,
+      "sha256": "6317c8205e8956e318be1acf2d5eca3310daa64a2adcb7c3986798d3053e63d5"
+    },
+    {
+      "oldPath": "caishen-assets/images/caishen-scene.webp",
+      "path": "assets/runtime/images/caishen-scene.webp",
+      "role": "runtime",
+      "bytes": 192436,
+      "sha256": "bdf8e9cea9c7e085dc2fb6b40bb8299ed23615caabb84d2eb5c153db847f18a8",
+      "runtimeUrl": "/theme-caishen/assets/images/caishen-scene.webp",
+      "note": "Phase 4: unlettered scene replaces dynamic labels with localized UI; original bytes preserved."
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/merit-plus-one.webp",
+      "path": "assets/archive/images/merit-plus-one.webp",
+      "role": "archive",
+      "bytes": 30304,
+      "sha256": "af966b0b63e031223ec8a427531055fe279bc75630fcb2326d00c02dd16baabf"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/monitor-screen.webp",
+      "path": "assets/archive/images/monitor-screen.webp",
+      "role": "archive",
+      "bytes": 30236,
+      "sha256": "cca83a9c1cd451da57fcc4952fcb52cfd2e83f2372822a2381d534050f992000"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/red-envelope.webp",
+      "path": "assets/archive/images/red-envelope.webp",
+      "role": "archive",
+      "bytes": 16838,
+      "sha256": "5abfe7932e35e448c601c0650018451584adb9a8fc135b021ce1d6b2f96f1c40"
+    },
+    {
+      "oldPath": "docs/screenshots/home-dark.png",
+      "path": "assets/previews/documentation/home-dark.png",
+      "role": "preview",
+      "bytes": 713101,
+      "sha256": "219761dc478ed82764b4b57e72d57cc42ec6d56aa75a957d48b353e4aedfea52"
+    },
+    {
+      "oldPath": "docs/screenshots/home-light.png",
+      "path": "assets/previews/documentation/home-light.png",
+      "role": "preview",
+      "bytes": 871725,
+      "sha256": "bc13dc68680afdcfa2c4e38b0c53883a54309600b89e33e22c3988b97e64a3fb"
+    },
+    {
+      "oldPath": "docs/screenshots/prompt-editor.png",
+      "path": "assets/previews/documentation/prompt-editor.png",
+      "role": "preview",
+      "bytes": 58366,
+      "sha256": "456db5c81d5a56717fff4549a4515be0d92402e9155ad3b1f0e93aff986f8650"
+    },
+    {
+      "oldPath": "docs/screenshots/prompt-sort.png",
+      "path": "assets/previews/documentation/prompt-sort.png",
+      "role": "preview",
+      "bytes": 45374,
+      "sha256": "e548401acb4e11c30daa87cccbaa46f2a6ecc03adee78c4248c5bdea2ed72a18"
+    },
+    {
+      "oldPath": "caishen-assets/decor/decor-coin.svg",
+      "path": "assets/runtime/decor/decor-coin.svg",
+      "role": "runtime",
+      "bytes": 695,
+      "sha256": "34f4a9b5c1e80677724f1fcd0ad2233b1ff95d4b0256f3083e9c5575e8c07d30",
+      "runtimeUrl": "/theme-caishen/assets/decor/decor-coin.svg",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-assets/decor/paper-texture.png",
+      "path": "assets/runtime/decor/paper-texture.png",
+      "role": "runtime",
+      "bytes": 117618,
+      "sha256": "ec81fd318352515959b9598afe5d168aee552e7a9e1da939d02cbdb9d9e976a8",
+      "runtimeUrl": "/theme-caishen/assets/decor/paper-texture.png",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-assets/icons/card-cost.svg",
+      "path": "assets/runtime/icons/card-cost.svg",
+      "role": "runtime",
+      "bytes": 1202,
+      "sha256": "e47c806bdaa8134172c71c71cfcd4460b5d1e29038bc26b0a5b73a1a2278f2dd",
+      "runtimeUrl": "/theme-caishen/assets/icons/card-cost.svg",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-assets/icons/card-debt.svg",
+      "path": "assets/runtime/icons/card-debt.svg",
+      "role": "runtime",
+      "bytes": 958,
+      "sha256": "d0921db18ff9196d5c90f211da57154a8ec6da038d1fa48697ec55b07c279252",
+      "runtimeUrl": "/theme-caishen/assets/icons/card-debt.svg",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-assets/icons/card-merge.svg",
+      "path": "assets/runtime/icons/card-merge.svg",
+      "role": "runtime",
+      "bytes": 1163,
+      "sha256": "754932a8851a3a072e96c5db35297cf83668b121e78ce681cbf5e3f10a169e5e",
+      "runtimeUrl": "/theme-caishen/assets/icons/card-merge.svg",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-assets/icons/card-report.svg",
+      "path": "assets/runtime/icons/card-report.svg",
+      "role": "runtime",
+      "bytes": 1111,
+      "sha256": "7f348c16ef124048f3a89a3a3ec3221fa6cf6c651233cba50a247c1c2951d9f5",
+      "runtimeUrl": "/theme-caishen/assets/icons/card-report.svg",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-assets/images/banner-dark.webp",
+      "path": "assets/runtime/images/banner-dark.webp",
+      "role": "runtime",
+      "bytes": 82474,
+      "sha256": "e380190cc372ba30a4d20cf318ca58881cc646dca20fed9560197bccca5075c0",
+      "runtimeUrl": "/theme-caishen/assets/images/banner-dark.webp",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-assets/images/banner-light.webp",
+      "path": "assets/runtime/images/banner-light.webp",
+      "role": "runtime",
+      "bytes": 96420,
+      "sha256": "d7294e609da7f72ab3463f5fd3488fa8d656f051addca16a5c6ade7be4d4918f",
+      "runtimeUrl": "/theme-caishen/assets/images/banner-light.webp",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/caishen-avatar.webp",
+      "path": "assets/runtime/images/caishen-avatar.webp",
+      "role": "runtime",
+      "bytes": 49294,
+      "sha256": "d4c2f74fd8d60edaa82b204088e747f6dda9cf7b6e71cbf3dc2343c848fbf52a",
+      "runtimeUrl": "/theme-caishen/assets/images/caishen-avatar.webp",
+      "legacyUrls": [
+        "/theme-caishen/extra/images/caishen-avatar.webp"
+      ]
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/caishen-cloud-mascot.webp",
+      "path": "assets/runtime/images/caishen-cloud-mascot.webp",
+      "role": "runtime",
+      "bytes": 75968,
+      "sha256": "ba640c1d797934be10156137e2c51afcafb4fb4f75c1a7576d4e6f5bc382b1ab",
+      "runtimeUrl": "/theme-caishen/assets/images/caishen-cloud-mascot.webp",
+      "legacyUrls": [
+        "/theme-caishen/extra/images/caishen-cloud-mascot.webp"
+      ]
+    },
+    {
+      "oldPath": "caishen-assets/images/caishen-scene-lettered.webp",
+      "path": "assets/runtime/images/caishen-scene-lettered.webp",
+      "role": "runtime",
+      "bytes": 219620,
+      "sha256": "c0243fd78578af0007bfaeff47da337be8dbd55db9e789a85cace9cca53a7fd6",
+      "runtimeUrl": "/theme-caishen/assets/images/caishen-scene-lettered.webp",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-assets/images/gold-ingot.webp",
+      "path": "assets/runtime/images/gold-ingot.webp",
+      "role": "runtime",
+      "bytes": 190844,
+      "sha256": "4e956d907d47aeb310e47b65b0a1417d804672a97ce02390ba642619ede2dd3f",
+      "runtimeUrl": "/theme-caishen/assets/images/gold-ingot.webp",
+      "legacyUrls": []
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/logo-shun.webp",
+      "path": "assets/runtime/images/logo-shun.webp",
+      "role": "runtime",
+      "bytes": 41180,
+      "sha256": "81de05a3987f640c7c5b6344b54179d36ca82cc247ca95700bc59ddf75c62d0e",
+      "runtimeUrl": "/theme-caishen/assets/images/logo-shun.webp",
+      "legacyUrls": [
+        "/theme-caishen/extra/images/logo-shun.webp"
+      ]
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/merit-badge.webp",
+      "path": "assets/runtime/images/merit-badge.webp",
+      "role": "runtime",
+      "bytes": 178862,
+      "sha256": "f0456e91d7bb2b4c7ef391528c92fa200e04ffa91fa1cac6e4bd501a5e8e3f23",
+      "runtimeUrl": "/theme-caishen/assets/images/merit-badge.webp",
+      "legacyUrls": [
+        "/theme-caishen/extra/images/merit-badge.webp"
+      ]
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/speech-bubble.webp",
+      "path": "assets/runtime/images/speech-bubble.webp",
+      "role": "runtime",
+      "bytes": 30112,
+      "sha256": "dfac6b220649443c9f39b078828060cb85bdd3b5efbe5f50cdae88c07f0832c3",
+      "runtimeUrl": "/theme-caishen/assets/images/speech-bubble.webp",
+      "legacyUrls": [
+        "/theme-caishen/extra/images/speech-bubble.webp"
+      ]
+    },
+    {
+      "oldPath": "caishen-assets/images/banner-dark.png",
+      "path": "assets/source/images/banner-dark.png",
+      "role": "source",
+      "bytes": 996753,
+      "sha256": "66563b253765a09fff686dd2bb87620cf96b762469134d1bd4c1ba17748f5e5c"
+    },
+    {
+      "oldPath": "caishen-assets/images/banner-light.png",
+      "path": "assets/source/images/banner-light.png",
+      "role": "source",
+      "bytes": 1162245,
+      "sha256": "dce7eea7ce21e8ad45e9670494200a605751940f053adb65883d58287bfc27c3"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/book-stack.png",
+      "path": "assets/source/images/book-stack.png",
+      "role": "source",
+      "bytes": 176417,
+      "sha256": "1d9eafa241dbff7aae41d378a383680b2c395bc95877b19fc6ddac5675869ed3"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/caishen-avatar.png",
+      "path": "assets/source/images/caishen-avatar.png",
+      "role": "source",
+      "bytes": 218319,
+      "sha256": "3127d1802adf20904c26a8607d64bd780e49a38ed5e7931de983da13729ad1f0"
+    },
+    {
+      "oldPath": "caishen-assets/images/caishen-character.png",
+      "path": "assets/source/images/caishen-character.png",
+      "role": "source",
+      "bytes": 1185902,
+      "sha256": "4c1c20c214a53c5390a8b861693dd9fbb3f0c839ddd64c151807132f99a5f972"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/caishen-cloud-mascot.png",
+      "path": "assets/source/images/caishen-cloud-mascot.png",
+      "role": "source",
+      "bytes": 526098,
+      "sha256": "45ef603cab49af39a8b8f97465088596d9018b1d28debfd364ce170cacc7a13e"
+    },
+    {
+      "oldPath": "caishen-assets/images/caishen-desk.png",
+      "path": "assets/source/images/caishen-desk.png",
+      "role": "source",
+      "bytes": 755912,
+      "sha256": "6a2dc53c29c42626bf57124516167bf8164922c0a0422d6a14c96872b0078839"
+    },
+    {
+      "oldPath": "caishen-assets/images/caishen-scene-lettered.png",
+      "path": "assets/source/images/caishen-scene-lettered.png",
+      "role": "source",
+      "bytes": 1074852,
+      "sha256": "b622e950887d5f0dddcbeefc96832a00dfc2aff364828c16e7afdbb382fc6b93"
+    },
+    {
+      "oldPath": "caishen-assets/images/caishen-scene.png",
+      "path": "assets/source/images/caishen-scene.png",
+      "role": "source",
+      "bytes": 1328667,
+      "sha256": "db9df4abc1398ee106cd180ad146f58b68c52a1f1307d2faf85f75361a9ead1e"
+    },
+    {
+      "oldPath": "caishen-assets/images/gold-ingot.png",
+      "path": "assets/source/images/gold-ingot.png",
+      "role": "source",
+      "bytes": 1390850,
+      "sha256": "cafd9a8337cb1e9cb50cbba122efa521ea6d4456b604677535e78ab7e12498e4"
+    },
+    {
+      "oldPath": "caishen-assets/images/logo-caishen.png",
+      "path": "assets/source/images/logo-caishen.png",
+      "role": "source",
+      "bytes": 53207,
+      "sha256": "7093919901234a93bccadeeeb108bebef8ffe46a203ed9b7658158c3248c72b7"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/logo-shun.png",
+      "path": "assets/source/images/logo-shun.png",
+      "role": "source",
+      "bytes": 152985,
+      "sha256": "d658f620d7a38d89369b1c39c3e64209d7cb8a24c006df2fad0258d401c0c634"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/merit-badge.png",
+      "path": "assets/source/images/merit-badge.png",
+      "role": "source",
+      "bytes": 1497484,
+      "sha256": "40ce8fa2def893bc3f148aff7a420b6151149bc3909071580dac8340842c1109"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/merit-plus-one.png",
+      "path": "assets/source/images/merit-plus-one.png",
+      "role": "source",
+      "bytes": 122307,
+      "sha256": "2c2793700fd4cd7f9c2f52930c91ad8132e1b390cba0e4232711406c9d327b1c"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/monitor-stats.png",
+      "path": "assets/source/images/monitor-stats.png",
+      "role": "source",
+      "bytes": 232718,
+      "sha256": "28a5b6bf0c25589a8d27100b6ea3de595e29497eecb77ed9d597fdf9e243994f"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/red-envelope.png",
+      "path": "assets/source/images/red-envelope.png",
+      "role": "source",
+      "bytes": 68949,
+      "sha256": "8b612291c6e1e6a815f42a03fedda862c57893929ee299a56f6900db8b75e782"
+    },
+    {
+      "oldPath": "caishen-extra-assets/images/speech-bubble.png",
+      "path": "assets/source/images/speech-bubble.png",
+      "role": "source",
+      "bytes": 127628,
+      "sha256": "71ced1905555ccfbcd976a709d536f4d6ca8154c30b78457131c3b2bf45663b3"
+    },
+    {
+      "oldPath": "caishen-extra-assets/README.md",
+      "path": "assets/source/provenance/extra/README.md",
+      "role": "provenance",
+      "bytes": 2947,
+      "sha256": "4f587a577554f043f3b515a3018d6e9297000fcc2259696206e304ea0a831907",
+      "originalSha256": "5f3132b039760cb95c1e1c9be1f0b9a2748be78a5aaec1e9eb80876ffe144756"
+    },
+    {
+      "oldPath": "caishen-extra-assets/manifest.json",
+      "path": "assets/source/provenance/extra/manifest.json",
+      "role": "provenance",
+      "bytes": 3192,
+      "sha256": "484f4c05b29876ee9affb67327c614bcdc68ad22e160b2f939e09d41a2d4f1e9",
+      "originalSha256": "8516202120522e0a653f50ce183bbbfdc5c09f2edbf69d337802a7722a22a80a"
+    },
+    {
+      "oldPath": "caishen-assets/README.md",
+      "path": "assets/source/provenance/primary/README.md",
+      "role": "provenance",
+      "bytes": 3981,
+      "sha256": "1aef4fe6b3bbe0d863960190b4e2bb4726da90469ec7614c94891131d053b6ed",
+      "originalSha256": "e3df7f765031a78477431d7d4135fe8135d5a7487395a334619d07e5b6cb2aaf"
+    },
+    {
+      "oldPath": "caishen-assets/manifest.json",
+      "path": "assets/source/provenance/primary/manifest.json",
+      "role": "provenance",
+      "bytes": 2892,
+      "sha256": "7bbe56e441542be2929ca1fd8cde3d4e2d45556f1b29519b7327cae87b8c0bbc",
+      "originalSha256": "c7b3e200ad4b1ff4e78f12a2944310d042254381ded0058e0f0d812a490da0b7"
+    },
+    {
+      "oldPath": "tokens.json",
+      "path": "reference/tokens.json",
+      "role": "reference",
+      "bytes": 16754,
+      "sha256": "5a1ed4d72e6588bf2e4fa7e9dfcbab07cd2d01914e68acb19f6855ce22f24fa4"
+    },
+    {
+      "oldPath": "tokens.md",
+      "path": "reference/tokens.md",
+      "role": "reference",
+      "bytes": 13022,
+      "sha256": "1cc59b79de9d345714119fb13f10b54cfb7804cd9edd75a976277c7dc64a6539"
+    },
+    {
+      "path": "assets/previews/documentation/phase56-fixture-merit-dark-en-text200.png",
+      "role": "preview",
+      "bytes": 90724,
+      "sha256": "ea08e360e246a06e2fa2284b3f38284fdd9d9299171ac8310576cfe9da2a2c02",
+      "source": "isolated component fixture, not installed host"
+    },
+    {
+      "path": "assets/previews/documentation/phase56-host-home-light.png",
+      "role": "preview",
+      "bytes": 434984,
+      "sha256": "a6f5f2c18f313fdd6418a223efbd603d8becb736ed18cd8589f3649c4ad23d64",
+      "source": "installed DSH 0.2.1-rc.2 isolated Web profile"
+    },
+    {
+      "path": "assets/previews/documentation/phase56-host-merit.png",
+      "role": "preview",
+      "bytes": 230445,
+      "sha256": "9744a509c12d853e3a8c42859f76d7db71c517314a8d0009372452d7cd3731c3",
+      "source": "installed DSH 0.2.1-rc.2 isolated Web profile"
+    },
+    {
+      "path": "assets/previews/documentation/phase56-host-project-library.png",
+      "role": "preview",
+      "bytes": 192051,
+      "sha256": "bea67fe50ab7988783c4e558cb3c5165f7b054eb62fa39cb05a36e577e72c092",
+      "source": "installed DSH 0.2.1-rc.2 isolated Web profile"
+    },
+    {
+      "path": "assets/previews/documentation/visual-repair-host-home-dark.png",
+      "role": "preview",
+      "bytes": 701245,
+      "sha256": "0eda6794ef34d68c4f35bbe5b597fe63203d58afd7cb956e4bd492f82d0edc5b",
+      "source": "installed DSH 0.2.1-rc.2 isolated Web profile after original-design restoration"
+    },
+    {
+      "path": "assets/previews/documentation/visual-repair-host-home-light.png",
+      "role": "preview",
+      "bytes": 862620,
+      "sha256": "aeb028d32ce8e9aeaa6a9df7e24f0ff913351e6b147623eec534adf778292372",
+      "source": "installed DSH 0.2.1-rc.2 isolated Web profile after original-design restoration"
+    },
+    {
+      "path": "assets/previews/documentation/visual-repair-host-settings-light.png",
+      "role": "preview",
+      "bytes": 534411,
+      "sha256": "5221a597b5c90abe9d796d287cf93ac118de9890a6a89f366d1a2dbd04ad5afc",
+      "source": "installed DSH 0.2.1-rc.2 isolated Web profile after original-design restoration"
+    }
+  ],
+  "localDevelopmentPreview": {
+    "path": "assets/previews/development",
+    "oldPath": "output/preview",
+    "files": 21,
+    "bytes": 5620366,
+    "gitignored": true
+  },
+  "preservedLocalOutput": [
+    {
+      "path": "output/releases/dsh-theme-caishen-0.1.0.tgz",
+      "role": "release-archive",
+      "bytes": 13858452,
+      "gitignored": true
+    },
+    {
+      "path": "output/imagegen/prompts.md",
+      "role": "generation-notes",
+      "bytes": 3547,
+      "gitignored": true
+    }
+  ],
+  "notes": [
+    "All migrated binary assets keep their original bytes. Provenance README/manifest files and the Dock README have updated relative references.",
+    "The local development preview and preserved output statistics describe the migration only; these gitignored files are not required in clean checkouts or release packages.",
+    "Generated assets/README.md and assets/manifest.json are not self-listed. Reference palette files are kept outside the runtime asset tree."
+  ]
+}

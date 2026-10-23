@@ -1,0 +1,39 @@
+@media (prefers-reduced-motion: reduce) {
+  .caishen-status__dot { animation: none; }
+  .caishen-card,
+  .caishen-card__arrow,
+  .caishen-merit { transition: none; }
+  .caishen-merit__burst { animation: none; }
+}
+@media (max-width: 1000px) {
+  .caishen-card { min-height: 126px; padding: 12px; }
+  .caishen-card__desc { display: none; }
+  .caishen-card__icon { width: 40px; height: 40px; }
+  .caishen-card__icon img { width: 27px; height: 27px; }
+  .caishen-card__title { font-size: 15px; }
+}
+@media (max-width: 800px) {
+  .caishen-card__tag { display: none; }
+}
+@media (max-width: 620px) {
+  .caishen-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .caishen-card { min-height: 136px; }
+  .caishen-card__desc { display: -webkit-box; -webkit-line-clamp: 1; }
+  .caishen-card__tag { display: inline-block; }
+}
+@media (max-width: 760px) {
+  .caishen-header-brand__identity { display: none; }
+  .caishen-status__text { display: none; }
+  .caishen-status { width: 24px; padding: 0; justify-content: center; }
+}
+@media (max-width: 520px) {
+  .caishen-cards { gap: 8px; }
+  .caishen-card { min-height: 132px; padding: 11px; }
+  .caishen-card__tag { display: none; }
+  .caishen-card__icon { width: 36px; height: 36px; border-radius: 12px; }
+  .caishen-card__title { font-size: 14px; }
+  .caishen-card__desc { font-size: 11px; }
+}
+@container (width < 560px) {
+  .caishen-fortune-meter { display: none; }
+}

@@ -1,0 +1,103 @@
+{
+  "assets": [
+    {
+      "file": "../../images/caishen-scene-lettered.png",
+      "web_variant": "../../../runtime/images/caishen-scene-lettered.webp",
+      "canvas": [
+        1330,
+        1182
+      ],
+      "transparent": true,
+      "generation": "imagegen edit of the original Caishen scene",
+      "usage": "hero scene with monitor statistics and book titles painted directly into the original objects; no monitor or book overlays",
+      "original_file": "caishen-scene-lettered.png",
+      "original_web_variant": "caishen-scene-lettered.webp"
+    },
+    {
+      "file": "../../images/gold-ingot.png",
+      "web_variant": "../../../runtime/images/gold-ingot.webp",
+      "canvas": [
+        1484,
+        1060
+      ],
+      "transparent": true,
+      "generation": "imagegen",
+      "usage": "detailed gold ingot shared by the sidebar brand, workspace rows and workspace selector",
+      "original_file": "gold-ingot.png",
+      "original_web_variant": "gold-ingot.webp"
+    },
+    {
+      "file": "../../images/caishen-scene.png",
+      "usage": "legacy scene retained as a reference; not rendered by the current theme",
+      "canvas": [
+        1800,
+        1600
+      ],
+      "cropped_source_px": [
+        749,
+        424
+      ],
+      "content_rendered_px": [
+        1613,
+        913
+      ],
+      "transparent": true,
+      "original_file": "caishen-scene.png"
+    },
+    {
+      "file": "../../images/caishen-character.png",
+      "canvas": [
+        1200,
+        1200
+      ],
+      "cropped_source_px": [
+        369,
+        386
+      ],
+      "content_rendered_px": [
+        1021,
+        1068
+      ],
+      "transparent": true,
+      "original_file": "caishen-character.png"
+    },
+    {
+      "file": "../../images/caishen-desk.png",
+      "canvas": [
+        1600,
+        900
+      ],
+      "cropped_source_px": [
+        477,
+        291
+      ],
+      "content_rendered_px": [
+        1322,
+        806
+      ],
+      "transparent": true,
+      "original_file": "caishen-desk.png"
+    },
+    {
+      "file": "../../images/banner-light.png",
+      "canvas": [
+        2400,
+        900
+      ],
+      "cropped_source_px": "750x175",
+      "transparent": false,
+      "original_file": "banner-light.png"
+    },
+    {
+      "file": "../../images/banner-dark.png",
+      "canvas": [
+        2400,
+        900
+      ],
+      "cropped_source_px": "750x175",
+      "transparent": false,
+      "original_file": "banner-dark.png"
+    }
+  ],
+  "note": "The active lettered scene and gold ingot are generated images; see ../../../../docs/ARTWORK-PROMPTS.md. Legacy character, desk and scene files are upscaled cutouts from a generated asset sheet. SVG icons are actual vector paths. Paths now resolve relative to this preserved provenance manifest; original_file and original_web_variant retain the former names. Full migration map: ../../../manifest.json."
+}

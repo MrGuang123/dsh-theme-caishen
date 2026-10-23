@@ -1,0 +1,182 @@
+/* DSH 0.2.1-rc.2 host DOM adaptation. Keep changing host selectors here. */
+/* base.css */
+body:has([data-caishen-hero]) [data-conversation-region="composer"] [class*="_headline"] {
+  display: none;
+}
+
+/* base.css */
+body:has([data-caishen-hero]) [class*="_composerHero"] {
+  width: min(calc(100% - 28px), 1180px);
+  --dsh-composer-card-max-width: min(calc(100% - 28px), 1160px);
+  --cs-composer-mascot-size: clamp(88px, 10vw, 144px);
+}
+
+/* The native composer card is the mascot's positioning parent. */
+[data-conversation-region="composer"] [data-composer-card] { position: relative; }
+
+/* base.css */
+body [class*="_3WPZCG_root"] {
+  position: relative;
+  background: linear-gradient(180deg, #f7e8cf 0%, #f2dfbf 100%) !important;
+  box-shadow: inset -1px 0 0 rgba(160, 110, 40, .12);
+}
+
+/* base.css */
+body [class*="_3WPZCG_root"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .1;
+  background: url("/theme-caishen/assets/decor/paper-texture.png") repeat;
+  background-size: 512px 512px;
+  mix-blend-mode: multiply;
+}
+
+/* base.css */
+body[data-ds-dark-theme] [class*="_3WPZCG_root"] {
+  background: linear-gradient(180deg, #22150f 0%, #1b100b 100%) !important;
+  box-shadow: inset -1px 0 0 rgba(232, 176, 75, .08);
+}
+
+/* base.css */
+body[data-ds-dark-theme] [class*="_3WPZCG_root"]::after {
+  opacity: .06;
+  mix-blend-mode: soft-light;
+}
+
+/* base.css */
+[class*="_root"][data-phase="hero"] {
+  background:
+    radial-gradient(90% 70% at 82% 0%, rgba(255, 226, 176, .55) 0%, rgba(255, 226, 176, 0) 60%),
+    radial-gradient(70% 60% at 10% 100%, rgba(255, 241, 216, .7) 0%, rgba(255, 241, 216, 0) 60%),
+    var(--dsw-alias-bg-base);
+}
+
+/* base.css */
+body[data-ds-dark-theme] [class*="_root"][data-phase="hero"] {
+  background:
+    radial-gradient(90% 70% at 82% 0%, rgba(232, 176, 75, .14) 0%, rgba(232, 176, 75, 0) 60%),
+    radial-gradient(70% 60% at 10% 100%, rgba(179, 39, 30, .12) 0%, rgba(179, 39, 30, 0) 60%),
+    var(--dsw-alias-bg-base);
+}
+
+/* chrome.css */
+body [class*="_3WPZCG_root"] [class*="_brandIdentity"]:has(.caishen-logo-mark) {
+  height: 36px;
+}
+
+/* chrome.css */
+[data-slot="sidebar.workspaces"] [data-row-key^="workspace:"] > [class*="_folder"] {
+  position: relative;
+}
+
+/* chrome.css */
+[data-slot="sidebar.workspaces"] [data-row-key^="workspace:"] > [class*="_folder"]::before {
+  content: "";
+  position: absolute;
+  inset: -1px -3px;
+  background: url("/theme-caishen/assets/images/gold-ingot.webp") center / contain no-repeat;
+  pointer-events: none;
+}
+
+/* chrome.css */
+[data-slot="sidebar.workspaces"] [data-row-key^="workspace:"] > [class*="_folder"] > svg,
+[data-conversation-region="composer"] button[class*="_workspace"] > svg[class*="_folder"] > * {
+  visibility: hidden;
+}
+
+/* chrome.css */
+[data-conversation-region="composer"] button[class*="_workspace"] > svg[class*="_folder"] {
+  width: 22px;
+  height: 20px;
+  background: url("/theme-caishen/assets/images/gold-ingot.webp") center / contain no-repeat;
+}
+
+/* chrome.css */
+body [class*="_3WPZCG_root"] button[aria-haspopup="menu"][data-collapsed="false"] {
+  height: auto;
+  min-height: 44px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* chrome.css */
+body [class*="_3WPZCG_root"] button[aria-haspopup="menu"][data-collapsed="false"] [class*="_label"] {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  line-height: 1.15;
+  white-space: normal;
+}
+
+/* chrome.css */
+body [class*="_3WPZCG_root"] button[aria-haspopup="menu"][data-collapsed="false"] [class*="_label"]::after {
+  content: "搬砖赚钱中...";
+  display: block;
+  padding-left: 10px;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  background-image: radial-gradient(circle, #3fbf6f 0 3px, transparent 3.5px);
+  background-size: 8px 8px;
+  background-position: left 55%;
+  background-repeat: no-repeat;
+}
+
+/* chrome.css */
+html[lang^="en"] body [class*="_3WPZCG_root"] button[aria-haspopup="menu"][data-collapsed="false"] [class*="_label"]::after {
+  content: "Grinding for fortune...";
+}
+
+/* decorations.css */
+body [class*="_3WPZCG_root"] button[aria-haspopup="menu"][data-collapsed="false"] [class*="_avatar"] {
+  background-image: url("/theme-caishen/assets/images/caishen-avatar.webp");
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* decorations.css */
+body [class*="_3WPZCG_root"] button[aria-haspopup="menu"][data-collapsed="false"] [class*="_avatar"] > * {
+  display: none;
+}
+
+/* Reserve a right column for the mascot, never outside the viewport. */
+[data-conversation-region="composer"] [class*="_root"]:has(> [data-composer-card]) {
+  --cs-composer-mascot-size: clamp(100px, 10vw, 144px);
+  box-sizing: border-box; width: 100%; padding-inline-end: calc(var(--cs-composer-mascot-size) + 24px);
+}
+body:is([data-caishen-illustrations="off"], [data-caishen-focus="on"]) [data-conversation-region="composer"] [class*="_root"]:has(> [data-composer-card]) { padding-inline-end: var(--dsh-composer-side-clearance, 0px); }
+@media (max-width: 1000px), (max-height: 620px) {
+  [data-conversation-region="composer"] [class*="_root"]:has(> [data-composer-card]) { padding-inline-end: var(--dsh-composer-side-clearance, 0px); }
+}
+
+/* appearance.css */
+body[data-caishen-decoration="none"] [class*="_3WPZCG_root"]::after { display: none; }
+
+/* appearance.css */
+body[data-caishen-decoration="none"] [class*="_root"][data-phase="hero"] { background: var(--dsw-alias-bg-base); }
+
+/* appearance.css */
+body[data-caishen-decoration="none"] [data-slot="sidebar.workspaces"] [data-row-key^="workspace:"] > [class*="_folder"]::before { display: none; }
+
+/* appearance.css */
+body[data-caishen-decoration="none"] [data-slot="sidebar.workspaces"] [data-row-key^="workspace:"] > [class*="_folder"] > svg { visibility: visible; }
+
+/* appearance.css */
+body[data-caishen-decoration="none"] [data-conversation-region="composer"] button[class*="_workspace"] > svg[class*="_folder"] { background-image: none; }
+
+/* appearance.css */
+body[data-caishen-decoration="none"] [data-conversation-region="composer"] button[class*="_workspace"] > svg[class*="_folder"] > * { visibility: visible; }
+
+/* appearance.css */
+body[data-caishen-decoration="none"] [class*="_3WPZCG_root"] button[aria-haspopup="menu"][data-collapsed="false"] [class*="_avatar"] { background-image: none; }
+
+/* appearance.css */
+body[data-caishen-decoration="none"] [class*="_3WPZCG_root"] button[aria-haspopup="menu"][data-collapsed="false"] [class*="_avatar"] > * { display: revert; }

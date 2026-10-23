@@ -1,0 +1,51 @@
+/* Inline host settings section; the host owns the modal, navigation and scroll. */
+.caishen-appearance-page {
+  min-width: 0;
+  color: var(--dsw-alias-label-primary);
+  font-size: 14px;
+  line-height: 1.6;
+  container: caishen-settings / inline-size;
+}
+.caishen-appearance-page__header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 26px; }
+.caishen-appearance-page__header > div { min-width: 0; }
+.caishen-appearance-page__header h2 { margin: 0; font-size: 20px; line-height: 1.4; font-weight: 650; }
+.caishen-appearance-page__header p { margin: 7px 0 0; color: var(--dsw-alias-label-secondary); font-size: 12px; }
+.caishen-appearance-page__mark {
+  display: grid; place-items: center; flex: none; width: 38px; height: 38px;
+  border-radius: 11px; border: 1px solid color-mix(in srgb, var(--cs-gold) 45%, transparent);
+  background: color-mix(in srgb, var(--cs-gold) 13%, transparent); color: var(--cs-accent);
+  font-family: var(--cs-serif); font-weight: 700; font-size: 23px; line-height: 1;
+}
+.caishen-appearance-page__form { display: grid; gap: 22px; margin: 0; }
+.caishen-appearance-page__group { min-width: 0; margin: 0; padding: 0; border: 0; }
+.caishen-appearance-page__group legend { width: 100%; margin: 0 0 4px; padding: 0; color: var(--cs-gold-ink); font-size: 12px; font-weight: 650; }
+.caishen-appearance-page__field,
+.caishen-appearance-page__toggle { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-width: 0; padding: 12px 0; }
+.caishen-appearance-page__group :is(.caishen-appearance-page__field, .caishen-appearance-page__toggle) { border-bottom: 1px solid var(--dsw-alias-border-l3); }
+.caishen-appearance-page__field > span { min-width: 0; }
+.caishen-appearance-page__field select {
+  box-sizing: border-box; min-width: 140px; max-width: 60%; min-height: 36px; padding: 6px 10px;
+  border: 1px solid var(--dsw-alias-border-l2); border-radius: 9px;
+  background: var(--dsw-alias-bg-layer-1); color: var(--dsw-alias-label-primary); font: inherit; font-size: 13px;
+}
+.caishen-appearance-page__toggle-copy { display: grid; gap: 5px; min-width: 0; }
+.caishen-appearance-page__toggle small { color: var(--dsw-alias-label-secondary); font-size: 12px; line-height: 1.65; }
+.caishen-appearance-page__toggle input { width: 18px; height: 18px; margin: 0; flex: none; accent-color: var(--cs-accent); cursor: pointer; }
+.caishen-appearance-page__focus { padding: 0 14px; border-inline-start: 2px solid color-mix(in srgb, var(--cs-gold) 50%, transparent); background: color-mix(in srgb, var(--cs-gold) 5%, transparent); }
+.caishen-appearance-page__hint { margin: -8px 0 0; color: var(--dsw-alias-label-tertiary); font-size: 11px; line-height: 1.65; }
+.caishen-appearance-page__feedback { min-height: 20px; margin-top: -7px; color: var(--dsw-alias-label-secondary); font-size: 12px; }
+.caishen-appearance-page__feedback p { margin: 0; }
+.caishen-appearance-page__error { color: var(--cs-error); }
+.caishen-appearance-page__footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 15px; border-top: 1px solid var(--dsw-alias-border-l2); }
+.caishen-appearance-page__actions { display: inline-flex; flex-wrap: wrap; gap: 8px; }
+.caishen-appearance-page__button { min-height: 36px; padding: 7px 13px; border: 1px solid var(--dsw-alias-border-l2); border-radius: 9px; background: var(--dsw-alias-bg-layer-1); color: var(--dsw-alias-label-primary); font: inherit; font-size: 12px; cursor: pointer; }
+.caishen-appearance-page__button--primary { border-color: var(--cs-accent); background: var(--cs-action-bg); color: var(--cs-action-ink); font-weight: 650; }
+.caishen-appearance-page__defaults { border-color: transparent; padding-inline: 0; background: transparent; color: var(--cs-gold-ink); }
+.caishen-appearance-page :is(select, input, button):disabled { opacity: .45; cursor: default; }
+.caishen-appearance-page :is(select, input, button):focus-visible { outline: 2px solid var(--cs-focus); outline-offset: 3px; }
+@container caishen-settings (max-width: 340px) {
+  .caishen-appearance-page__field { align-items: flex-start; flex-direction: column; gap: 7px; }
+  .caishen-appearance-page__field select { width: 100%; max-width: 100%; min-width: 0; }
+  .caishen-appearance-page__footer { align-items: flex-start; flex-direction: column; }
+  .caishen-appearance-page__actions { align-self: stretch; }
+}

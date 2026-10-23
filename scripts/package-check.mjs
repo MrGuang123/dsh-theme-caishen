@@ -1,5 +1,5 @@
 /**
- * Verify the actual npm tarball, then smoke-test its relocated artwork server.
+ * Verify the actual npm tarball, then smoke-test its relocated static routes.
  * No install, registry access, or third-party Node packages are needed.
  * Requires Node.js, npm, and tar (included with macOS/Linux and modern Windows).
  */
@@ -13,6 +13,14 @@ import { runInNewContext } from "node:vm";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const temporary = await mkdtemp(join(tmpdir(), "caishen-package-check-"));
+const STYLE_URL = "/theme-caishen/styles/client.css";
+const MAX_ARCHIVE_BYTES = 2 * 1024 * 1024;
+const MAX_UNPACKED_BYTES = 3 * 1024 * 1024;
+const routeDirectories = new Map([
+	["/theme-caishen/assets/", "assets/runtime"],
+	["/theme-caishen/extra/", "assets/runtime"],
+	["/theme-caishen/styles/", "lib"],
+]);
 
 function command(executable, args, options = {}) {
 	const result = spawnSync(executable, args, {
@@ -69,12 +77,20 @@ try {
 	const archive = join(archiveDirectory, pack.filename);
 	const files = new Set(pack.files.map((file) => file.path));
 	assert.ok(files.size > 0, "npm packed no files");
+	const archiveBytes = (await stat(archive)).size;
+	assert.ok(archiveBytes <= MAX_ARCHIVE_BYTES,
+		`compressed package exceeds 2 MiB: ${archiveBytes} bytes`);
 	const forbidden = /(?:^|\/)(?:\.DS_Store|__MACOSX|output|node_modules|\.git|\.dsh|\.ssh|\.aws|\.npmrc|\.env(?:\.[^/]*)?)(?:\/|$)|\.(?:pem|key|p12|pfx)$|\.(?:tgz|log)$/i;
+	const allowed = /^(?:package\.json|README\.md|LICENSE|CHANGELOG\.md|cordis\.patch\.yml|lib\/(?:index\.js|client\.js|client\.css|host\/[^/]+\.js)|locale\/[^/]+\.json|reference\/tokens\.json|assets\/README\.md|assets\/application\/plugin\/icon\.svg|assets\/runtime\/(?:images|icons|decor)\/(?:[^/]+\/)*[^/]+\.(?:png|webp|svg|jpe?g|woff2|json))$/;
+	const developmentDirectories = /(?:^|\/)(?:source|archive|application|dock|previews|docs|src|scripts)(?:\/|$)/i;
 	for (const file of files) {
 		assert.equal(posix.normalize(file), file, `non-canonical package path: ${file}`);
 		assert.ok(!posix.isAbsolute(file) && !file.startsWith("../") && !file.includes("\\"),
 			`unsafe package path: ${file}`);
 		assert.ok(!forbidden.test(file), `development/private file leaked into package: ${file}`);
+		assert.ok(allowed.test(file), `file outside the runtime release inventory: ${file}`);
+		assert.ok(file === "assets/application/plugin/icon.svg" || !developmentDirectories.test(file),
+			`source/reference artwork or development directory leaked into package: ${file}`);
 	}
 	// Inspect archive paths before extraction, independently of npm's JSON inventory.
 	const archiveMembers = command("tar", ["-tzf", archive]).split(/\r?\n/).filter(Boolean);
@@ -90,6 +106,14 @@ try {
 	assert.deepEqual([...archivedFiles].sort(), [...files].sort(), "npm inventory differs from tarball contents");
 	command("tar", ["-xzf", archive, "-C", extractDirectory]);
 	const unpacked = join(extractDirectory, "package");
+	let unpackedBytes = 0;
+	for (const file of files) {
+		const details = await stat(join(unpacked, file));
+		assert.ok(details.isFile(), `archive member is not a regular file: ${file}`);
+		unpackedBytes += details.size;
+	}
+	assert.ok(unpackedBytes <= MAX_UNPACKED_BYTES,
+		`unpacked package exceeds 3 MiB: ${unpackedBytes} bytes`);
 	const manifest = JSON.parse(await readFile(join(unpacked, "package.json"), "utf8"));
 	assert.equal(pack.name, manifest.name, "packed name differs from manifest");
 	assert.equal(pack.version, manifest.version, "packed version differs from manifest");
@@ -109,7 +133,11 @@ try {
 			assert.ok(files.has(file), `entry/export target is absent from tarball: ${target}`);
 		}
 	}
-	for (const required of ["README.md", "LICENSE", "locale/en.json", "locale/zh.json"]) {
+	for (const required of [
+		"README.md", "LICENSE", "CHANGELOG.md", "locale/en.json", "locale/zh.json",
+		"lib/index.js", "lib/host/index.js", "lib/host/artwork.js", "lib/client.js", "lib/client.css", "reference/tokens.json",
+		"assets/README.md", "assets/application/plugin/icon.svg",
+	]) {
 		assert.ok(files.has(required), `release metadata missing: ${required}`);
 	}
 	const patch = await readFile(join(unpacked, manifest.dsh.bundle.patch), "utf8");
@@ -119,10 +147,15 @@ try {
 	const clientFile = manifest.exports["./client"];
 	assert.equal(typeof clientFile, "string", "client export must identify the browser entry");
 	const clientSource = await readFile(join(unpacked, clientFile), "utf8");
-	let registration;
+	const cssSource = await readFile(join(unpacked, "lib/client.css"), "utf8");
+	assert.ok(cssSource.trim().length > 0, "packed client stylesheet is empty");
+	assert.ok(clientSource.includes(STYLE_URL), "browser entry does not reference the standalone stylesheet");
+	const registrations = [];
 	runInNewContext(clientSource, {
-		window: { __ModuleLoader__: { load(value) { registration = value; } } },
+		window: { __ModuleLoader__: { load(value) { registrations.push(value); } } },
 	}, { filename: clientFile, timeout: 1000 });
+	assert.equal(registrations.length, 1, "browser entry must register exactly one package factory");
+	const [registration] = registrations;
 	assert.equal(registration?.id, manifest.name, "browser module id differs from package name");
 	assert.equal(typeof registration.factory, "function", "browser module has no factory");
 	const localPath = /(?:\/Users\/[^\s/"'<>]+\/|\/home\/[^\s/"'<>]+\/|[A-Za-z]:\\(?:Users|home)\\)/;
@@ -142,29 +175,51 @@ try {
 			}
 		}
 	}
-	const routeDirectories = new Map([
-		["/theme-caishen/assets/", "caishen-assets"],
-		["/theme-caishen/extra/", "caishen-extra-assets"],
-	]);
 	const browserAssets = new Set();
-	for (const [helper, constant] of [["asset", "ASSET_BASE"], ["extra", "EXTRA_BASE"]]) {
-		const base = clientSource.match(new RegExp(`\\bconst\\s+${constant}\\s*=\\s*["']([^"']+)["']`))?.[1];
-		assert.ok(routeDirectories.has(base), `unrecognized ${constant} URL`);
-		const calls = [...clientSource.matchAll(new RegExp(`\\b${helper}\\s*\\(\\s*["']([^"']+)["']\\s*\\)`, "g"))];
-		assert.equal(calls.length, [...clientSource.matchAll(new RegExp(`\\b${helper}\\s*\\(`, "g"))].length,
-			`dynamic ${helper}() call needs package-check support`);
-		for (const call of calls) browserAssets.add(base + call[1]);
+	const bases = new Set([...clientSource.matchAll(/\bconst\s+ASSET_BASE\s*=\s*["']([^"']+)["']/g)]
+		.map((match) => match[1]));
+	assert.deepEqual([...bases], ["/theme-caishen/assets/"], "unrecognized or inconsistent ASSET_BASE URL");
+	const [assetBase] = bases;
+	const literalCalls = [...clientSource.matchAll(/\basset\s*\(\s*["']([^"']+)["']\s*\)/g)];
+	const allCalls = [...clientSource.matchAll(/\basset\s*\(/g)].filter((match) =>
+		!/\bfunction\s+$/.test(clientSource.slice(Math.max(0, match.index - 40), match.index)));
+	assert.equal(literalCalls.length, allCalls.length, "dynamic asset() call needs package-check support");
+	for (const call of literalCalls) browserAssets.add(assetBase + call[1]);
+	for (const source of [clientSource, cssSource]) {
+		for (const match of source.matchAll(/(\/theme-caishen\/(?:assets|extra)\/[^"'`\s)]+\.[a-z0-9]+(?:\?[^"'`\s)]*)?)(?=["'`\s)])/gi)) {
+			browserAssets.add(match[1]);
+		}
 	}
-	for (const match of clientSource.matchAll(/(\/theme-caishen\/(?:assets|extra)\/[^"'`\s)]+\.[a-z0-9]+)(?=["'`\s)])/gi)) {
-		browserAssets.add(match[1]);
+	assert.ok(!/@import\b/i.test(cssSource), "stylesheet imports need explicit package-check support");
+	const cssURLs = [...cssSource.matchAll(/\burl\(\s*(?:"([^"]*)"|'([^']*)'|([^\s"'()]+))\s*\)/gi)];
+	assert.equal(cssURLs.length, [...cssSource.matchAll(/\burl\s*\(/gi)].length,
+		"unparsed CSS URL needs package-check support");
+	for (const match of cssURLs) {
+		const reference = match[1] ?? match[2] ?? match[3];
+		if (reference.startsWith("#") || reference.startsWith("data:")) continue;
+		const url = new URL(reference, `https://theme-caishen.invalid${STYLE_URL}`);
+		assert.equal(url.origin, "https://theme-caishen.invalid", `external CSS dependency: ${reference}`);
+		assert.ok(url.pathname.startsWith("/theme-caishen/assets/") || url.pathname.startsWith("/theme-caishen/extra/"),
+			`CSS dependency outside runtime artwork routes: ${reference}`);
+		browserAssets.add(url.pathname + url.search);
 	}
 	assert.ok(browserAssets.size >= 10, "too few browser artwork references found");
+	// The previous extra route remains an alias for existing installations and URLs.
+	browserAssets.add("/theme-caishen/extra/images/merit-badge.webp");
+	function resourceFile(url) {
+		const pathname = new URL(url, "https://theme-caishen.invalid").pathname;
+		const prefix = [...routeDirectories.keys()].find((candidate) => pathname.startsWith(candidate));
+		assert.ok(prefix, `unknown browser resource route: ${url}`);
+		const relative = decodeURIComponent(pathname.slice(prefix.length));
+		assert.equal(posix.normalize(relative), relative, `non-canonical resource URL: ${url}`);
+		assert.ok(relative && !posix.isAbsolute(relative) && !relative.startsWith("../") && !relative.includes("\\"),
+			`unsafe browser resource URL: ${url}`);
+		return { prefix, file: `${routeDirectories.get(prefix)}/${relative}` };
+	}
 	for (const url of browserAssets) {
-		const prefix = [...routeDirectories.keys()].find((candidate) => url.startsWith(candidate));
-		assert.ok(prefix, `unknown browser artwork route: ${url}`);
-		const relative = `${routeDirectories.get(prefix)}/${url.slice(prefix.length)}`;
-		assert.ok(files.has(relative), `browser artwork absent from tarball: ${url}`);
-		assert.ok((await stat(join(unpacked, relative))).size > 0, `empty artwork: ${relative}`);
+		const { file } = resourceFile(url);
+		assert.ok(files.has(file), `browser artwork absent from tarball: ${url}`);
+		assert.ok((await stat(join(unpacked, file))).size > 0, `empty artwork: ${file}`);
 	}
 	const host = await import(pathToFileURL(join(unpacked, manifest.main)).href);
 	assert.equal(typeof host.apply, "function", "relocated host entry has no apply()");
@@ -173,7 +228,7 @@ try {
 	const scope = {
 		webServer: {
 			register(route) {
-				assert.equal(route.kind, "prefix", "artwork route must be scoped by prefix");
+				assert.equal(route.kind, "prefix", "static route must be scoped by prefix");
 				assert.ok(routeDirectories.has(route.path + "/"), `unexpected host route: ${route.path}`);
 				assert.ok(!activeRoutes.has(route.path), `duplicate route: ${route.path}`);
 				assert.equal(typeof route.handler, "function");
@@ -194,7 +249,7 @@ try {
 			callback(scope);
 		},
 	});
-	assert.equal(activeRoutes.size, routeDirectories.size, "host did not mount both artwork routes");
+	assert.equal(activeRoutes.size, routeDirectories.size, "host did not mount all three static routes");
 	async function request(route, method, url) {
 		let status;
 		let headers = {};
@@ -208,25 +263,40 @@ try {
 		assert.equal(typeof status, "number", `${method} ${url} has no status`);
 		return { status, headers, body };
 	}
-	for (const url of browserAssets) {
-		const prefix = [...routeDirectories.keys()].find((candidate) => url.startsWith(candidate));
+	for (const url of [...browserAssets, STYLE_URL]) {
+		const { prefix, file } = resourceFile(url);
 		const response = await request(prefix.slice(0, -1), "GET", url);
-		assert.equal(response.status, 200, `relocated artwork GET failed: ${url}`);
-		const expected = await readFile(join(unpacked, routeDirectories.get(prefix), url.slice(prefix.length)));
-		assert.deepEqual(response.body, expected, `artwork bytes differ: ${url}`);
-		assert.equal(Number(response.headers["content-length"]), expected.length, `artwork length differs: ${url}`);
-		assert.ok(/^image\//.test(response.headers["content-type"]), `wrong artwork MIME type: ${url}`);
+		assert.equal(response.status, 200, `relocated resource GET failed: ${url}`);
+		const expected = await readFile(join(unpacked, file));
+		assert.deepEqual(response.body, expected, `resource bytes differ: ${url}`);
+		assert.equal(Number(response.headers["content-length"]), expected.length, `resource length differs: ${url}`);
+		if (url === STYLE_URL) {
+			assert.equal(response.headers["content-type"], "text/css; charset=utf-8", "wrong stylesheet MIME type");
+		} else {
+			assert.ok(/^image\//.test(response.headers["content-type"]), `wrong artwork MIME type: ${url}`);
+		}
 	}
 	for (const url of [
 		"/theme-caishen/assets/images/caishen-scene-lettered.webp",
 		"/theme-caishen/extra/images/merit-badge.webp",
+		STYLE_URL,
 	]) {
 		const route = [...activeRoutes.keys()].find((candidate) => url.startsWith(candidate + "/"));
 		const response = await request(route, "HEAD", `${url}?release-check=1`);
-		assert.equal(response.status, 200, `relocated artwork HEAD failed: ${url}`);
+		const { file } = resourceFile(url);
+		assert.equal(response.status, 200, `relocated resource HEAD failed: ${url}`);
 		assert.equal(response.body.length, 0, `HEAD sent a body: ${url}`);
-		assert.ok(Number(response.headers["content-length"]) > 0, `HEAD lost content length: ${url}`);
-		assert.equal(response.headers["content-type"], "image/webp", `wrong WebP MIME type: ${url}`);
+		assert.equal(Number(response.headers["content-length"]), (await stat(join(unpacked, file))).size,
+			`HEAD content length differs: ${url}`);
+		assert.equal(response.headers["content-type"], url === STYLE_URL ? "text/css; charset=utf-8" : "image/webp",
+			`wrong HEAD MIME type: ${url}`);
+	}
+	for (const file of ["client.js", "index.js", "package.json", "client.css.map"]) {
+		for (const method of ["GET", "HEAD"]) {
+			const response = await request("/theme-caishen/styles", method, `/theme-caishen/styles/${file}`);
+			assert.equal(response.status, 404, `stylesheet route exposed ${file} via ${method}`);
+			assert.equal(response.body.length, 0, `stylesheet route leaked ${file}`);
+		}
 	}
 	for (const route of activeRoutes.keys()) {
 		for (const method of ["POST", "PUT", "PATCH", "DELETE", "OPTIONS"]) {
@@ -235,11 +305,16 @@ try {
 			assert.equal(response.body.length, 0, `rejected ${method} leaked a body`);
 		}
 		const missing = await request(route, "GET", `${route}/images/definitely-missing.webp`);
-		assert.equal(missing.status, 404, `missing artwork did not return 404 on ${route}`);
-		assert.equal(missing.body.length, 0, "missing artwork leaked a body");
+		assert.equal(missing.status, 404, `missing resource did not return 404 on ${route}`);
+		assert.equal(missing.body.length, 0, "missing resource leaked a body");
+		for (const suffix of ["", "/"]) {
+			const response = await request(route, "GET", route + suffix);
+			assert.equal(response.status, 404, `route directory was exposed: ${route + suffix}`);
+			assert.equal(response.body.length, 0, "directory request leaked a body");
+		}
 		for (const suffix of [
 			"../package.json", "%2e%2e%2fpackage.json", "%2e%2e%5cpackage.json",
-			"%2e%2e%2f%2e%2e%2fpackage.json", "%00package.json", "%ZZ",
+			"%2e%2e%2f%2e%2e%2fpackage.json", "%00package.json", "%ZZ", "/package.json",
 		]) {
 			const response = await request(route, "GET", `${route}/${suffix}`);
 			assert.ok([400, 403, 404].includes(response.status), `unsafe URL was accepted: ${route}/${suffix}`);
@@ -247,8 +322,8 @@ try {
 		}
 	}
 	for (const dispose of disposers) dispose();
-	assert.equal(activeRoutes.size, 0, "host cleanup left artwork routes registered");
-	console.log(`ok — ${pack.name}@${pack.version}: ${files.size} packed files, ${browserAssets.size} relocated artwork URLs, GET/HEAD and read-only/path checks`);
+	assert.equal(activeRoutes.size, 0, "host cleanup left static routes registered");
+	console.log(`ok — ${pack.name}@${pack.version}: ${files.size} packed files, ${archiveBytes} compressed / ${unpackedBytes} unpacked bytes, ${browserAssets.size} artwork URLs, standalone CSS, GET/HEAD and read-only/path checks`);
 } finally {
 	await rm(temporary, { recursive: true, force: true });
 }

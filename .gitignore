@@ -22,3 +22,6 @@ coverage/
 ._*
 Thumbs.db
 Desktop.ini
+
+# Local layout previews moved from output/preview
+assets/previews/development/
