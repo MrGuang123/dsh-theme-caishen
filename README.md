@@ -39,7 +39,7 @@
 2. 填写以下地址，点击「安装」：
 
    ```text
-   git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.0
+   git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.1
    ```
 
 3. 安装完成后点击「立即启用」。如 DSH 提示需要重启，按提示操作。
@@ -51,7 +51,7 @@
 使用 DSH 的插件命令，安装到你准备使用的 profile：
 
 ```bash
-dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.0'
+dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.1'
 ```
 
 将 `web` 换成实际使用的 CLI profile 名称；桌面端用户建议直接从「插件」页面安装。随后按命令提示完成操作，并在 DSH「插件」页面确认本主题已启用。无需自行运行 `pnpm add` 或手工修改 profile 文件。
@@ -203,7 +203,7 @@ macOS 27 的「自动」外观会参考夜览（Night Shift）日程；未设置
 
 开发源码位于 `src/`，`lib/` 为已提交的生成产物；修改源码后执行 `npm run build`。安装和使用插件无需构建或运行 `npm install`。运行包保留实际运行文件，原稿、历史素材、截图及可选 Dock 图标在仓库中查阅和下载；本页使用仓库绝对链接，安装包不重复携带预览图和开发文档。
 
-六阶段已完成：项目库、功德簿、集中宿主适配与兼容验收已落地；真实成本、效率和同步的评估及后续计划见[探索记录](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/EXPLORATION.md)。本轮版本为 `0.2.0`，DSH `0.2.1-rc.2` 的隔离安装结果见验证记录，复验方法见[兼容说明](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/COMPATIBILITY.md)。
+六阶段已完成：项目库、功德簿、集中宿主适配与兼容验收已落地；真实成本、效率和同步的评估及后续计划见[探索记录](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/EXPLORATION.md)。当前版本为 `0.2.1`，DSH `0.2.1-rc.2` 的隔离安装结果见验证记录，复验方法见[兼容说明](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/COMPATIBILITY.md)。
 
 ## 许可
 

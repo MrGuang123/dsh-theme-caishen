@@ -10,7 +10,7 @@
  */
 import assert from "node:assert/strict";
 import { readFile, stat } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 import { checkPromptCards } from "./prompt-cards-check.mjs";
 
@@ -57,7 +57,7 @@ const React = {
 	useSyncExternalStore: (_subscribe, getSnapshot) => getSnapshot(),
 };
 
-await import(join(root, "lib/client.js"));
+await import(pathToFileURL(join(root, "lib/client.js")).href);
 
 assert.ok(registration, "bundle never called window.__ModuleLoader__.load");
 assert.equal(registration.id, pkg.name, "bundle id must equal package.json name");
@@ -307,7 +307,7 @@ const patch = await readFile(join(root, "cordis.patch.yml"), "utf8");
 assert.ok(patch.includes("id: ui-brand-official"), "official brand row override missing");
 assert.ok(patch.includes("disabled: true"), "official brand row must be disabled for the skin");
 
-const host = await import(join(root, "lib/index.js"));
+const host = await import(pathToFileURL(join(root, "lib/index.js")).href);
 assert.equal(typeof host.apply, "function", "host half must export apply");
 
 console.log(
