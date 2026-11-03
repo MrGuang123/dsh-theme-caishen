@@ -76,6 +76,6 @@ memory.set(KEY,JSON.stringify({version:1,favorites:['external'],recent:[]}));for
 failRead=true;assert.equal(store.update('p2','favorite').ok,false);assert.equal(store.getStatus(),'unavailable');failRead=false;
 const raw=JSON.parse(memory.get(KEY));assert.deepEqual(Object.keys(raw).sort(),['favorites','recent','version']);assert.ok(notifications>0);unsubscribe();assert.equal(listeners.size,0);
 const launcher=createPromptLauncher();let opened=0;const target={};const element={closest:()=>({contains:t=>t===target})};const off=launcher.attach(element,()=>opened++),command=launcher.command(k=>k);
-assert.deepEqual(command.defaults,{});assert.deepEqual(command.modals,[]);assert.equal(command.resolve({target:{},modal:null}).status,'pass');assert.equal(command.resolve({target,modal:'dialog'}).status,'pass');
+assert.deepEqual(command.aliases,[]);assert.deepEqual(command.defaults,{});assert.deepEqual(command.regions,['editable']);assert.deepEqual(command.modals,[]);assert.equal(command.resolve({target:{},modal:null}).status,'pass');assert.equal(command.resolve({target,modal:'dialog'}).status,'pass');
 command.resolve({target,modal:null}).run();assert.equal(opened,1);off();assert.equal(command.resolve({target,modal:null}).status,'pass');
 console.log('ok — prompt workflow: explicit templates and literal substitution, v1/v2 backups, 128-card filtering, captured revisions, local usage failures and scoped optional host command');

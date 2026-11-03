@@ -5,7 +5,7 @@ function createPromptLauncher() {
 	return {
 		attach(element, open) { entries.set(element, open); return () => entries.delete(element); },
 		command(t) {
-			return { id: "theme-caishen.prompt-library", label: () => t("workflow.open"), defaults: {}, modals: [], group: "input",
+			return { id: "theme-caishen.prompt-library", label: () => t("workflow.open"), aliases: [], defaults: {}, regions: ["editable"], modals: [], group: "input",
 				resolve(context) {
 					if (context.modal != null) return { status: "pass" };
 					for (const [element, open] of entries) {

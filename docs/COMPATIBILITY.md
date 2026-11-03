@@ -1,13 +1,13 @@
 # 宿主兼容与复验
 
-本轮目标和已验证版本为 DSH `0.2.1-rc.2`，`engines.dsh` 保持该精确版本。代码契约核对、独立组件浏览器与真实安装是三类证据，不能互相替代。实际结果见 [验证记录](VALIDATION.md)。
+本轮目标和已验证版本为 DSH `0.2.1-rc.5`，`engines.dsh` 为 `>=0.2.1-rc.5 <0.2.2-0`。`0.2.1` 仍是 DSH `0.2.1-rc.2` 的兼容版本；`0.2.2` 起面向 rc.5。代码契约核对、独立组件浏览器与真实安装是三类证据，不能互相替代。实际结果见 [验证记录](VALIDATION.md)。
 
 ## 适配边界
 
 - `src/client/adapter/host.cjs` 集中维护十个插槽（原九个加正式 `settings.section`）、composer DOM 标记和工作区映射。输入读取 `useInput`，写入只使用捕获 `draftRev` 后的 `inputActions.insertText`；失败不调用 DOM 写入或整段替换。
 - 根 hook `useWorkspaces` 的 `items[].workspaceId` 是项目持久 ID，`sessionIds` 为会话归属；只有唯一匹配且 ID 合法时才开放项目库。不能从目录名、路径或会话标题猜 ID。未取得身份时全局库仍可用。
-- 宿主私有 CSS 类名片段全部集中在 `styles/host-adapter.css`，其余样式维护主题自身类名；这些片段没有稳定 API 承诺，升级必须复验。
-- `scripts/check-host.mjs` 只读指定 `app.asar` 内的版本、十个插槽、输入、工作区、快捷键、主题与 9 个 CSS 类名片段，并阻止私有类选择器散落回其他文件。静态匹配通过不证明行为正确。
+- 宿主私有 CSS 类名片段全部集中在 `styles/host-adapter.css`，其余样式维护主题自身类名；这些片段没有稳定 API 承诺，升级必须复验。侧栏根节点不再使用 CSS module 哈希，改为稳定插槽出口 `[data-slot="sidebar"] > div`；`data-slot` 由宿主 slot 渲染器提供，主题只依赖该公开 DOM 契约。
+- `scripts/check-host.mjs` 只读指定 `app.asar` 内的已验证版本、十个插槽、slot 出口、输入、工作区、快捷键、主题与 8 个 CSS 类名片段，并阻止私有类选择器散落回其他文件。静态匹配通过不证明行为正确。
 
 ## 可复现组件浏览器
 

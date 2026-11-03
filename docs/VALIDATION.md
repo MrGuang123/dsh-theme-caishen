@@ -1,5 +1,22 @@
 # 发布验证
 
+## 0.2.2 DSH 0.2.1-rc.5 兼容修复
+
+升级到 DSH `0.2.1-rc.5` 后，主题与配套阿财在插件页显示「异常」。核对安装版 `app.asar` 确认：`0.2.1` 的 `engines.dsh` 精确等于 `0.2.1-rc.2`，rc.5 会整体跳过 bundle；同时 rc.5 侧栏根节点 CSS module 哈希由 `_3WPZCG_root` 变为 `kB3qhq_root`，旧选择器全部失效。
+
+本轮改动与验证：
+
+- `engines.dsh` 改为 `>=0.2.1-rc.5 <0.2.2-0`，版本升到 `0.2.2`。
+- 侧栏适配改用宿主 slot 出口 `[data-slot="sidebar"] > div`，不再依赖构建哈希；不再硬编码 `kB3qhq_root`。
+- `npm run build`：50 个客户端模块、17 份 CSS、5 个运行时文件。
+- `npm run check`：产物一致性、提示词、数据安全、库安全、迁移、工作流、外观、项目/功德检查全部通过（122 tokens、320 双语键、10 插槽）。
+- `npm run check:host -- '/Applications/DeepSeek Harness.app/Contents/Resources/app.asar'`：安装版 DSH `0.2.1-rc.5`，10 个插槽、slot 出口、输入版本、工作区归属、快捷键、主题 token 与 8 个宿主类片段通过。
+- `npm run check:package`：`dsh-theme-caishen@0.2.2`，31 个文件，压缩约 1.4 MB，展开约 1.66 MB；素材 URL、独立 CSS、GET/HEAD 与只读路径检查通过。
+- 在隔离 `DSH_HOME` 的 `web` profile 中安装 0.2.2 `.tgz`，用 Chrome 1440×1000 加载真实 DSH 0.2.1-rc.5：主题属性、侧栏 slot 出口、侧栏渐变、品牌标记、首页横幅和提示词入口全部出现，页面脚本错误为 0。侧栏根节点为 `kB3qhq_root`，证明新选择器 `[data-slot="sidebar"] > div` 命中真实 DOM。
+- 加载时发现 rc.5 的快捷方式参考会展开 `ShortcutCatalogEntry.aliases`；主题自定义命令缺少 `aliases`/`regions` 时触发 `row.aliases is not iterable` 的 slot 错误。已补齐字段，并在 `workflow-check.mjs` 中锁定命令形状；复测页面脚本错误为 0。
+- 真实桌面安装与视觉复验仍待本轮代码加载后执行；重点检查会话头部 View/More、输入区财神、设置页、浅深色和窄窗口。未完成前不把静态检查当作完整实装验收。
+- 配套阿财 `dsh-pet-caishen` 是独立插件，仍有精确 `0.2.1-rc.2` pin 和独立原生伴随程序；本轮未改动，需单独做 rc.5 适配，不能因主题恢复而认为阿财也已兼容。
+
 ## 0.2.1 Windows 发布检查修复
 
 `v0.2.0` 首次推送后的 GitHub 检查中 Linux/macOS 通过，Windows 失败。核对发现 `scripts/check.mjs` 两处直接动态导入本地绝对路径；现统一通过 `pathToFileURL` 导入，兼容 Windows 盘符。修复只影响开发检查，不改变主题运行 JS/CSS、素材、插槽或持久化数据。安装示例升级为 `v0.2.1`，不移动已发布的 `v0.2.0`。跨平台最终结果以新标签的 GitHub Actions 记录为准。
