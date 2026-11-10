@@ -1,5 +1,29 @@
 # 发布验证
 
+## 0.2.3 DSH 0.2.2-rc.1 兼容修复
+
+升级到 DSH `0.2.2-rc.1` 后，插件管理器以 `engines.dsh` 不满足为由拒绝安装或整体跳过 bundle。隔离 profile 实测报错为：`Plugin dsh-theme-caishen@0.2.2 is incompatible with dsh 0.2.2-rc.1: requirements {"engines.dsh":">=0.2.1-rc.5 <0.2.2-0"}`。根因是上界 `<0.2.2-0` 排除了所有 `0.2.2` 预发布；运行代码本身仍可加载。
+
+升级核对（`0.2.1-rc.5` → `0.2.2-rc.1`，对照 npm 包与安装版 `app.asar`）：
+
+- 十个插槽全部保留；`dsh-client-ui-slots` 运行文件字节一致，注册、选举与 `priority` 语义未变；`dsh-client-ui-renderer`、`dsh-client-shortcuts` 运行文件字节一致。
+- 标准 props 只新增可选 `useContextMenu`，没有移除或改名；输入 `inputActions` 的 `captureInsertion`/`insertText`/`setDraft` 与 `data-composer-card`/`data-composer-input` 未变。
+- `theme.overrideTokens` 未变；locale 只新增可选语言，`register`/`bind`/`subscribe` 仍兼容中英双语字典。
+- composer 新增 sticky 合成层说明，但主题所有弹窗继续用原生 `<dialog>.showModal()` 顶层显示，不受 `position: fixed` 包含块影响。
+- `host-adapter.css` 依赖的 8 个宿主类名片段与 `[data-slot="sidebar"] > div` 出口仍存在。
+
+本轮改动与验证：
+
+- `engines.dsh` 改为 `>=0.2.1-rc.5 <0.3.0-0`，版本升到 `0.2.3`；覆盖 `0.2.x` 正式版和预发布，`0.3` 起继续被拒绝，留待重新验证。
+- `scripts/check-host.mjs` 的已验证宿主加入 `0.2.2-rc.1`；`npm run check:host -- '/Applications/DeepSeek Harness.app/Contents/Resources/app.asar'` 通过：10 个插槽、slot 出口、输入版本、工作区归属、快捷键、主题 token 与 8 个宿主类片段。
+- `scripts/lib/browser-fixture.mjs` 不再硬编码 composer CSS module 前缀 `yhfFVG`，改为从目标 `app.asar` 自动提取；`scripts/browser-check.mjs` 同步使用该前缀；`scripts/lib/browser-runtime.mjs` 增加 `0.2.2` 前端 bundle 的 React 18.3.1 提取路径，旧版 `0.2.1-rc.5` 路径保留。
+- `npm run check:browser`（目标 0.2.2-rc.1 的 `app.asar`，Chrome 156）：11 组浏览器流程全部通过，覆盖全局/项目库、变量填入、备份导入、损坏恢复、双窗口功德、保存失败重试、外观保存/回滚、窄屏英文与 200% 字号矩阵，页面脚本异常为 0。
+- `npm run build`：50 个客户端模块、17 份样式、5 个运行时文件。
+- `npm run check`：产物一致性、提示词、数据安全、库安全、迁移、工作流、外观、项目/功德检查全部通过（122 tokens、320 双语键、10 插槽）。
+- `npm run check:package`：`dsh-theme-caishen@0.2.3`，31 个打包文件，压缩 1,406,483 字节、展开 1,661,466 字节；素材 URL、独立 CSS、GET/HEAD 与只读路径检查通过。
+- 隔离 `DSH_HOME` 的 `web` profile：旧范围安装被拒；改范围后 `0.2.3` 安装成功。以 `--port 0` 启动真实 DSH `0.2.2-rc.1`，Chrome headless 加载：插件进入 boot manifest，`data-caishen-*` 属性、侧栏渐变、品牌标记、首页横幅、提示词入口、功德入口与 `/theme-caishen/styles/client.css`（405 条规则）全部生效，页面脚本异常为 0。
+- 未验证：需要登录的宿主设置页 `settings.section` 在 `0.2.2` 实机中的挂载（测试实例未登录，`settings.launcher` 未挂载）；DSH `0.2.3+`、`0.3`、桌面原生窗口、Windows/Linux 与读屏流程。组件夹具与静态契约不能替代这些实机验收。
+
 ## 0.2.2 DSH 0.2.1-rc.5 兼容修复
 
 升级到 DSH `0.2.1-rc.5` 后，主题与配套阿财在插件页显示「异常」。核对安装版 `app.asar` 确认：`0.2.1` 的 `engines.dsh` 精确等于 `0.2.1-rc.2`，rc.5 会整体跳过 bundle；同时 rc.5 侧栏根节点 CSS module 哈希由 `_3WPZCG_root` 变为 `kB3qhq_root`，旧选择器全部失效。

@@ -31,7 +31,7 @@
 
 ## 安装
 
-当前清单面向 DSH `0.2.1-rc.5`（`engines.dsh: >=0.2.1-rc.5 <0.2.2-0`），需要能在侧栏打开「插件」管理页面。`0.2.1` 仍供 DSH `0.2.1-rc.2` 使用。本主题面向 DSH 的 Web 界面，包括使用该界面的桌面端，不改变终端界面。
+当前清单面向 DSH `0.2.x`（`engines.dsh: >=0.2.1-rc.5 <0.3.0-0`），已实测 `0.2.1-rc.5` 与 `0.2.2-rc.1`，需要能在侧栏打开「插件」管理页面。DSH `0.2.1-rc.2` 请使用旧版 `0.2.1`。本主题面向 DSH 的 Web 界面，包括使用该界面的桌面端，不改变终端界面。
 
 ### 在 DSH 中安装
 
@@ -39,7 +39,7 @@
 2. 填写以下地址，点击「安装」：
 
    ```text
-   git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.2
+   git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.3
    ```
 
 3. 安装完成后点击「立即启用」。如 DSH 提示需要重启，按提示操作。
@@ -51,7 +51,7 @@
 使用 DSH 的插件命令，安装到你准备使用的 profile：
 
 ```bash
-dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.2'
+dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.3'
 ```
 
 将 `web` 换成实际使用的 CLI profile 名称；桌面端用户建议直接从「插件」页面安装。随后按命令提示完成操作，并在 DSH「插件」页面确认本主题已启用。无需自行运行 `pnpm add` 或手工修改 profile 文件。
@@ -192,7 +192,7 @@ macOS 27 的「自动」外观会参考夜览（Night Shift）日程；未设置
 ## 兼容性与数据
 
 - 这是独立第三方主题，不是 DeepSeek 官方主题。建议避免同时启用多个会覆盖品牌、颜色或相同界面插槽的主题。
-- 配色与适配目标为 DSH `0.2.1-rc.5`，`engines.dsh` 为 `>=0.2.1-rc.5 <0.2.2-0`；其他版本可能被插件管理器拒绝安装，需验证后再扩大范围。`0.2.1` 是 DSH `0.2.1-rc.2` 的兼容版本。发布前验收方法见 [发布说明](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/RELEASING.md)。
+- 兼容 DSH `0.2.x`，`engines.dsh` 为 `>=0.2.1-rc.5 <0.3.0-0`；已实测 `0.2.1-rc.5` 与 `0.2.2-rc.1`。不再为每个 DSH 小版本收紧上界，`0.3` 及以后重新验证前会被插件管理器拒绝。DSH `0.2.1-rc.2` 请使用旧版 `0.2.1`。发布前验收方法见 [发布说明](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/RELEASING.md)。
 - 部分装饰样式依赖 DSH 的界面结构，DSH 升级后可能需要调整。遇到布局异常时可先停用主题，再在 [Issues](https://github.com/MrGuang123/dsh-theme-caishen/issues) 提供 DSH 版本、操作系统、深浅色和窗口大小。
 - 插件运行时从自身目录提供图片资源，不引入额外远程图片或统计服务。宿主侧注册统一素材路由、旧 URL 兼容别名及独立样式路由；提示词只在你点击卡片时写入宿主输入框。
 - 插画和财运、功德均为装饰，不读取实际项目成本或财务数据。首页恢复原有带字场景；电脑内的金额、效率与书名均为插画装饰，不连接实际账户或项目统计。
@@ -205,7 +205,7 @@ macOS 27 的「自动」外观会参考夜览（Night Shift）日程；未设置
 
 开发源码位于 `src/`，`lib/` 为已提交的生成产物；修改源码后执行 `npm run build`。安装和使用插件无需构建或运行 `npm install`。运行包保留实际运行文件，原稿、历史素材、截图及可选 Dock 图标在仓库中查阅和下载；本页使用仓库绝对链接，安装包不重复携带预览图和开发文档。
 
-六阶段已完成：项目库、功德簿、集中宿主适配与兼容验收已落地；真实成本、效率和同步的评估及后续计划见[探索记录](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/EXPLORATION.md)。当前版本为 `0.2.2`，面向 DSH `0.2.1-rc.5`；`0.2.1` 的隔离安装结果见验证记录，复验方法见[兼容说明](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/COMPATIBILITY.md)。
+六阶段已完成：项目库、功德簿、集中宿主适配与兼容验收已落地；真实成本、效率和同步的评估及后续计划见[探索记录](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/EXPLORATION.md)。当前版本为 `0.2.3`，面向 DSH `0.2.x`（已验证 `0.2.1-rc.5` 与 `0.2.2-rc.1`）；隔离安装结果见验证记录，复验方法见[兼容说明](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/COMPATIBILITY.md)。
 
 ## 许可
 

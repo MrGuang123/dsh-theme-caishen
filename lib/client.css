@@ -922,7 +922,7 @@ body[data-caishen-focus="on"] .caishen-hero .caishen-card { min-height: 100px; }
 .caishen-appearance__body > button { justify-self: start; }
 
 /* Source: src/client/styles/host-adapter.css */
-/* DSH 0.2.1-rc.5 host DOM adaptation. Keep changing host selectors here. */
+/* DSH 0.2.1-rc.5 through 0.2.2-rc.1 host DOM adaptation. Keep changing host selectors here. */
 /* base.css */
 body:has([data-caishen-hero]) [data-conversation-region="composer"] [class*="_headline"] {
   display: none;

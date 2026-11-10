@@ -9,7 +9,7 @@ const root='dsh/node_modules/@deepseek-ai/';
 const names=['dsh-client-ui-conversation','dsh-client-ui-session','dsh-client-ui-workspace','dsh-client-ui-sidebar','dsh-client-ui-settings-shell','dsh-client-ui-settings-general','dsh-client-ui-settings-account','dsh-client-ui-settings','dsh-client-ui-layout','dsh-client-ui-renderer','dsh-client-shortcuts','dsh-client-ui-theme'];
 const code=Object.fromEntries(await Promise.all(names.map(async name=>[name,await readAsar(archive,root+name+'/lib/client.js')])));
 const info=JSON.parse(await readAsar(archive,'dsh/package.json'));
-const verifiedHosts=['0.2.1-rc.5'];
+const verifiedHosts=['0.2.1-rc.5','0.2.2-rc.1'];
 assert.ok(verifiedHosts.includes(info.version),'host '+info.version+' is not a verified target; update this list and engines.dsh after testing');
 const joined=Object.values(code).join('\n');for(const [slot]of SLOTS)assert.ok(joined.includes('"'+slot+'"'),'missing slot '+slot);
 for(const [name,patterns]of Object.entries({

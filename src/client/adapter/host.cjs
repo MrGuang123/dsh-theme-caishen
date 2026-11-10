@@ -1,4 +1,4 @@
-/** Tested host contract: DSH 0.2.1-rc.5. No guessed scope or DOM action fallback. */
+/** Tested host contract: DSH 0.2.1-rc.5 through 0.2.2-rc.1. No guessed scope or DOM action fallback. */
 const COMPOSER_REGION = '[data-conversation-region="composer"]';
 const COMPOSER_INPUT = '[data-composer-input]';
 function composerInput(target) { return target?.closest?.(COMPOSER_REGION)?.querySelector(COMPOSER_INPUT) || null; }

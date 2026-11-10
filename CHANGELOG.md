@@ -1,5 +1,13 @@
 # 更新记录
 
+## 0.2.3 · 2026-11-11
+
+- 适配 DSH `0.2.2-rc.1`：`engines.dsh` 从 `>=0.2.1-rc.5 <0.2.2-0` 放宽为 `>=0.2.1-rc.5 <0.3.0-0`，覆盖整个 `0.2.x`（含 rc/alpha 预发布），不再因为 DSH 小版本升级被插件管理器整体拒绝；`0.2.1-rc.5` 以下仍不声明兼容。
+- 升级核对：`0.2.1-rc.5` 至 `0.2.2-rc.1` 的 10 个插槽全部保留，`dsh-client-ui-slots` 与 `ui-renderer`、`ui-shortcuts` 运行代码未变；标准 props 只新增可选 `useContextMenu`；`theme.overrideTokens` 未变；locale 只新增可选语言；composer 的 `captureInsertion`/`insertText`/`setDraft` 与 `data-*` 标记未变。主题运行代码无需适配修改。
+- 组件浏览器夹具不再硬编码宿主 CSS module 前缀 `yhfFVG`，改为从目标 `app.asar` 的 composer CSS 自动提取；React 运行时提取兼容 `0.2.2` 的前端 bundle；`scripts/check-host.mjs` 的已验证宿主列表加入 `0.2.2-rc.1`。
+- 在隔离 `DSH_HOME` 的 `web` profile 中真实安装并启动 DSH `0.2.2-rc.1`：插件进入 boot manifest，主题属性、侧栏渐变、品牌标记、首页横幅、提示词入口、功德入口与 405 条插件 CSS 规则均生效，页面脚本异常为 0。
+- 数据格式、素材和本地存储键不变；已安装 `0.2.2` 的用户需升级到 `0.2.3` 并重启 DSH，让新版本重新参与组合。
+
 ## 0.2.2 · 2026-11-03
 
 - 适配 DSH `0.2.1-rc.5`：`engines.dsh` 从精确 `0.2.1-rc.2` 改为 `>=0.2.1-rc.5 <0.2.2-0`，修复升级后插件被宿主判定不兼容而整体跳过的问题。`0.2.1` 继续留给 DSH `0.2.1-rc.2`。
