@@ -1,13 +1,14 @@
 # 宿主兼容与复验
 
-本轮已验证版本为 DSH `0.2.2-rc.1`，同时保留 `0.2.1-rc.5` 的验证结果。`engines.dsh` 为 `>=0.2.1-rc.5 <0.3.0-0`，覆盖 `0.2.x` 的正式版与预发布，不再因 DSH 小版本升级被整体拒绝；`0.3` 及以后需重新验证。`0.2.1` 仍是 DSH `0.2.1-rc.2` 的兼容版本，`0.2.2` 不适用于 rc.2。代码契约核对、独立组件浏览器与真实安装是三类证据，不能互相替代。实际结果见 [验证记录](VALIDATION.md)。
+本轮已验证版本为 DSH `0.2.2-rc.1`，同时保留 `0.2.1-rc.5` 的验证结果；`0.2.4` 的输入卡片与财神响应式布局也基于该版本的 composer CSS 与浏览器夹具复验。`engines.dsh` 为 `>=0.2.1-rc.5 <0.3.0-0`，覆盖 `0.2.x` 的正式版与预发布，不再因 DSH 小版本升级被整体拒绝；`0.3` 及以后需重新验证。`0.2.1` 仍是 DSH `0.2.1-rc.2` 的兼容版本，`0.2.2` 不适用于 rc.2。代码契约核对、独立组件浏览器与真实安装是三类证据，不能互相替代。实际结果见 [验证记录](VALIDATION.md)。
 
 ## 适配边界
 
 - `src/client/adapter/host.cjs` 集中维护十个插槽（原九个加正式 `settings.section`）、composer DOM 标记和工作区映射。输入读取 `useInput`，写入只使用捕获 `draftRev` 后的 `inputActions.insertText`；失败不调用 DOM 写入或整段替换。
 - 根 hook `useWorkspaces` 的 `items[].workspaceId` 是项目持久 ID，`sessionIds` 为会话归属；只有唯一匹配且 ID 合法时才开放项目库。不能从目录名、路径或会话标题猜 ID。未取得身份时全局库仍可用。
 - 宿主私有 CSS 类名片段全部集中在 `styles/host-adapter.css`，其余样式维护主题自身类名；这些片段没有稳定 API 承诺，升级必须复验。侧栏根节点不再使用 CSS module 哈希，改为稳定插槽出口 `[data-slot="sidebar"] > div`；`data-slot` 由宿主 slot 渲染器提供，主题只依赖该公开 DOM 契约。
-- `scripts/check-host.mjs` 只读指定 `app.asar` 内的已验证版本、十个插槽、slot 出口、输入、工作区、快捷键、主题与 8 个 CSS 类名片段，并阻止私有类选择器散落回其他文件。静态匹配通过不证明行为正确。
+- 已有会话的输入卡片布局读取宿主 `--dsh-chat-content-width`（缺失时回退 `--dsh-composer-card-max-width`）和 `--dsh-composer-side-clearance`（缺失时回退 0），财神以 `[data-conversation-content]` 为缩放边界；缺少该边界时退回 `[data-conversation-region="composer"]`。
+- `scripts/check-host.mjs` 只读指定 `app.asar` 内的已验证版本、十个插槽、slot 出口、输入、工作区、快捷键、主题与 9 个 CSS 类名片段，并校验 composer 布局变量和 `data-conversation-content`；它同时阻止私有类选择器散落回其他文件。静态匹配通过不证明行为正确。
 - DSH `0.2.2-rc.1` 的十个插槽、`ui-slots` 注册与选举语义、`inputActions`、`theme.overrideTokens` 均与 `0.2.1-rc.5` 一致；标准 props 只新增可选 `useContextMenu`，locale 只新增可选语言。composer 变成 sticky 合成层后，主题弹窗继续使用原生 `<dialog>.showModal()` 顶层渲染，不依赖 `position: fixed`。
 - `scripts/lib/browser-fixture.mjs` 从目标 `app.asar` 的 composer CSS 自动读取 CSS module 前缀，不再硬编码 `yhfFVG`；`scripts/lib/browser-runtime.mjs` 同时识别 `0.2.2` 前端 bundle 的 React 18.3.1 布局与旧版提取路径，避免宿主重新构建后夹具先于插件失效。
 

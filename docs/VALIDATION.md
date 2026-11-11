@@ -1,5 +1,25 @@
 # 发布验证
 
+## 0.2.4 输入卡片与财神响应式布局修复
+
+已有会话中输入卡片此前用固定右列预留财神，卡片宽度与宿主聊天列不一致；窗口跨过 `1000px/620px` 断点时右侧财神整体消失，空间恢复后也不会随容器宽度连续变化。
+
+本轮改动：
+
+- 已有会话的输入卡片按 `--dsh-chat-content-width` 对齐宿主聊天列，保留 `--dsh-composer-side-clearance` 的 16px inline padding；首页 hero 保留原有预留右列、宽度与固定断点隐藏规则。
+- 已有会话的财神以 `[data-conversation-content]` 为边界，按卡片右侧剩余空间在 `min(144px, max(100px, 10vw))` 内缩放；低于最大尺寸一半时隐藏，空间恢复后重新出现。已有会话移除固定 `1000px/620px` 媒体查询；首页 hero 的旧隐藏规则保留。
+- 浏览器夹具增加聊天列 680/900/1060px、显示 920px、隐藏 922px、恢复 680px，以及已有会话卡片与聊天列对齐检查；`check-host` 增加 `data-conversation-content`、`--dsh-chat-content-width`、`--dsh-composer-side-clearance` 契约。
+- 版本升到 `0.2.4`；提示词、功德、存储键、素材字节和 DSH 兼容范围不变。
+
+验证结果：
+
+- `npm run build`：50 个客户端模块、17 份样式、5 个运行时文件；`npm run check` 通过（122 tokens、320 双语键、10 插槽）。
+- `npm run check:host -- '/Applications/DeepSeek Harness.app/Contents/Resources/app.asar'`：安装版 DSH `0.2.2-rc.1`，10 个插槽、slot 出口、输入版本、工作区归属、快捷键、主题 token、composer 布局变量与 9 个宿主类片段通过。
+- `npm run check:browser`（目标 `0.2.2-rc.1` 的 `app.asar`，Chrome 156）：13 组流程通过，其中新增两组为「composer 跟随聊天列、财神按剩余空间缩小」和「财神低于半尺寸时隐藏、空间恢复后返回」；页面脚本异常为 0。
+- `npm run check:package`：`dsh-theme-caishen@0.2.4`，31 个打包文件，压缩 1,407,820 字节、展开 1,664,594 字节；素材 URL、独立 CSS、GET/HEAD 与只读路径检查通过。
+- 隔离 `DSH_HOME` 的 `web` profile 安装 `dsh-theme-caishen-0.2.4.tgz` 并启动真实 DSH `0.2.2-rc.1`：插件进入 boot manifest，`data-caishen-*` 属性、插件样式与首页布局正常，页面脚本异常为 0；首页 hero 在 1280×900 下卡片宽 769px、财神 128px 可见，与 `0.2.3` 一致；安装后 `lib/client.js` / `lib/client.css` 与发布构建哈希一致。
+- 未验证：测试实例未登录，点击「新会话」会打开「开始使用」登录提示，无法在真实宿主创建已有消息会话，因此已有会话的聊天列对齐与财神缩放/隐藏仍由浏览器夹具验证；真实桌面窗口、Windows/Linux 与读屏流程未覆盖。
+
 ## 0.2.3 DSH 0.2.2-rc.1 兼容修复
 
 升级到 DSH `0.2.2-rc.1` 后，插件管理器以 `engines.dsh` 不满足为由拒绝安装或整体跳过 bundle。隔离 profile 实测报错为：`Plugin dsh-theme-caishen@0.2.2 is incompatible with dsh 0.2.2-rc.1: requirements {"engines.dsh":">=0.2.1-rc.5 <0.2.2-0"}`。根因是上界 `<0.2.2-0` 排除了所有 `0.2.2` 预发布；运行代码本身仍可加载。

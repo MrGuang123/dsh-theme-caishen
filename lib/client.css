@@ -381,10 +381,10 @@ body :is(.caishen-hero-actions, .caishen-utilities) {
 
 .caishen-cloud-mascot-wrap {
   position: absolute;
-  inset-inline-end: calc(-1 * var(--cs-composer-mascot-size) - 14px);
+  inset-inline-end: calc(-1 * var(--cs-composer-mascot-size, 0px) - 14px);
   bottom: -8px;
   z-index: 2;
-  width: var(--cs-composer-mascot-size);
+  width: var(--cs-composer-mascot-size, 0px);
   aspect-ratio: 500 / 441;
   display: block;
   pointer-events: none;
@@ -402,9 +402,6 @@ body :is(.caishen-hero-actions, .caishen-utilities) {
 
 body[data-caishen-illustrations="off"] .caishen-cloud-mascot-wrap,
 body[data-caishen-focus="on"] .caishen-cloud-mascot-wrap { display: none; }
-@media (max-width: 1000px), (max-height: 620px) {
-  .caishen-cloud-mascot-wrap { display: none; }
-}
 
 /* Source: src/client/styles/responsive.css */
 @media (prefers-reduced-motion: reduce) {
@@ -1071,14 +1068,33 @@ body [data-slot="sidebar"] > div button[aria-haspopup="menu"][data-collapsed="fa
   display: none;
 }
 
-/* Reserve a right column for the mascot, never outside the viewport. */
-[data-conversation-region="composer"] [class*="_root"]:has(> [data-composer-card]) {
-  --cs-composer-mascot-size: clamp(100px, 10vw, 144px);
-  box-sizing: border-box; width: 100%; padding-inline-end: calc(var(--cs-composer-mascot-size) + 24px);
+/* Match the host chat column, including its extra 16px of inline padding. */
+[data-conversation-region="composer"] [class*="_root"]:not([class*="_hero"]):has(> [data-composer-card]) {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: calc(var(--dsh-composer-side-clearance, 0px) + 16px);
 }
-body:is([data-caishen-illustrations="off"], [data-caishen-focus="on"]) [data-conversation-region="composer"] [class*="_root"]:has(> [data-composer-card]) { padding-inline-end: var(--dsh-composer-side-clearance, 0px); }
+[data-conversation-region="composer"] [class*="_root"]:not([class*="_hero"]) > [data-composer-card] {
+  max-width: var(--dsh-chat-content-width, var(--dsh-composer-card-max-width));
+}
+
+/* The homepage hero keeps the original reserved right column and breakpoints. */
+[data-conversation-region="composer"] [class*="_root"][class*="_hero"]:has(> [data-composer-card]) {
+  --cs-composer-mascot-size: clamp(100px, 10vw, 144px);
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline-end: calc(var(--cs-composer-mascot-size) + 24px);
+}
+body:is([data-caishen-illustrations="off"], [data-caishen-focus="on"]) [data-conversation-region="composer"] [class*="_root"][class*="_hero"]:has(> [data-composer-card]) {
+  padding-inline-end: var(--dsh-composer-side-clearance, 0px);
+}
 @media (max-width: 1000px), (max-height: 620px) {
-  [data-conversation-region="composer"] [class*="_root"]:has(> [data-composer-card]) { padding-inline-end: var(--dsh-composer-side-clearance, 0px); }
+  [data-conversation-region="composer"] [class*="_root"][class*="_hero"]:has(> [data-composer-card]) {
+    padding-inline-end: var(--dsh-composer-side-clearance, 0px);
+  }
+  [data-conversation-region="composer"] [class*="_root"][class*="_hero"] .caishen-cloud-mascot-wrap {
+    display: none;
+  }
 }
 
 /* appearance.css */

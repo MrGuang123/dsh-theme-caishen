@@ -32,7 +32,7 @@
 | `assets/runtime/images/merit-badge.webp` | 旧版功德按钮底图，当前标签和 `+1` 均为界面文字 |
 | `assets/runtime/images/logo-shun.webp` | 顶部“顺”字印章 |
 | `assets/runtime/images/caishen-avatar.webp` | 账户区域的装饰头像 |
-| `assets/runtime/images/caishen-cloud-mascot.webp` | 旧版输入区装饰，保留兼容且不再占据输入空间 |
+| `assets/runtime/images/caishen-cloud-mascot.webp` | 输入区祥云财神，按宿主聊天列剩余空间动态缩放；空间不足时隐藏 |
 | `assets/runtime/images/speech-bubble.webp` | 旧版 KPI 气泡，当前使用可翻译的界面文字 |
 
 显示器中的金额、效率百分比与书名属于静态插画彩蛋，没有读取实际项目统计。
@@ -49,4 +49,4 @@
 
 ## 视觉恢复说明
 
-根据用户反馈，当前首页已恢复原 `caishen-scene-lettered.webp` 的书籍/电脑文字、`speech-bubble.webp` 原气泡、`merit-badge.webp` 功德底图，以及 `caishen-cloud-mascot.webp` 输入卡片右侧财神。以上均复用原字节，不生成替代图。第四阶段的无字场景留作兼容资源；当前图片中的金额、效率和书名均是原插画内容，不连接实际业务数据。图文对齐与透明留白由独立 CSS 处理。最新真实安装图见 [截图索引](../assets/previews/documentation/README.md)。
+根据用户反馈，当前首页已恢复原 `caishen-scene-lettered.webp` 的书籍/电脑文字、`speech-bubble.webp` 原气泡、`merit-badge.webp` 功德底图，以及 `caishen-cloud-mascot.webp` 输入卡片右侧财神（`0.2.4` 起按剩余空间缩放）。以上均复用原字节，不生成替代图。第四阶段的无字场景留作兼容资源；当前图片中的金额、效率和书名均是原插画内容，不连接实际业务数据。图文对齐与透明留白由独立 CSS 处理。最新真实安装图见 [截图索引](../assets/previews/documentation/README.md)。

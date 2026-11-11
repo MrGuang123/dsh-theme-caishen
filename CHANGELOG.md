@@ -1,5 +1,12 @@
 # 更新记录
 
+## 0.2.4 · 2026-11-12
+
+- 修复已有会话中输入卡片比宿主聊天列更宽的问题：卡片按 `--dsh-chat-content-width` 对齐聊天列，并保留 `--dsh-composer-side-clearance` 的 16px inline padding；首页 hero 布局保持原样。
+- 已有会话的输入区祥云财神不再用固定右列和 `1000px/620px` 断点整体隐藏；改为以 `[data-conversation-content]` 为边界，按卡片右侧剩余空间在 `min(144px, max(100px, 10vw))` 内缩放，低于最大尺寸一半时隐藏，空间恢复后重新出现。首页 hero 保留原有预留右列和固定断点隐藏规则。
+- `scripts/browser-check.mjs` / `scripts/lib/browser-fixture.mjs` 增加 680/900/1060px 聊天列、920/922/680px 缩放与隐藏边界、已有会话卡片对齐检查；`scripts/check-host.mjs` 增加 `data-conversation-content`、`--dsh-chat-content-width`、`--dsh-composer-side-clearance` 契约。
+- 只调整输入区布局与样式；提示词数据、功德、本地存储键、素材字节与 DSH 兼容范围不变。已安装 `0.2.3` 的用户升级到 `0.2.4` 后重启 DSH。
+
 ## 0.2.3 · 2026-11-11
 
 - 适配 DSH `0.2.2-rc.1`：`engines.dsh` 从 `>=0.2.1-rc.5 <0.2.2-0` 放宽为 `>=0.2.1-rc.5 <0.3.0-0`，覆盖整个 `0.2.x`（含 rc/alpha 预发布），不再因为 DSH 小版本升级被插件管理器整体拒绝；`0.2.1-rc.5` 以下仍不声明兼容。

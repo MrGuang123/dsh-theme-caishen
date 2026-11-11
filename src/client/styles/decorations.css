@@ -1,10 +1,10 @@
 
 .caishen-cloud-mascot-wrap {
   position: absolute;
-  inset-inline-end: calc(-1 * var(--cs-composer-mascot-size) - 14px);
+  inset-inline-end: calc(-1 * var(--cs-composer-mascot-size, 0px) - 14px);
   bottom: -8px;
   z-index: 2;
-  width: var(--cs-composer-mascot-size);
+  width: var(--cs-composer-mascot-size, 0px);
   aspect-ratio: 500 / 441;
   display: block;
   pointer-events: none;
@@ -22,6 +22,3 @@
 
 body[data-caishen-illustrations="off"] .caishen-cloud-mascot-wrap,
 body[data-caishen-focus="on"] .caishen-cloud-mascot-wrap { display: none; }
-@media (max-width: 1000px), (max-height: 620px) {
-  .caishen-cloud-mascot-wrap { display: none; }
-}

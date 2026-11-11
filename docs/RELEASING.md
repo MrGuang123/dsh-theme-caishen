@@ -49,7 +49,7 @@ npm pack
 
 - 插件页能读到正确名称、版本、图标与介绍，没有加载错误。
 - 浅色、深色及跟随系统能切换；新会话与已有消息的会话均能打开。
-- 首页恢复带字书籍/电脑、原气泡与背景；图片功德及红金功德簿中线对齐；输入卡片右列财神完整可见，输入栏没有主题外观按钮；已有会话不显示首页横幅。
+- 首页恢复带字书籍/电脑、原气泡与背景；图片功德及红金功德簿中线对齐；已有会话输入卡片与聊天列对齐，财神按剩余空间缩放、空间不足时隐藏；首页财神保持原布局；输入栏没有主题外观按钮；已有会话不显示首页横幅。
 - `/theme-caishen/styles/client.css` 正常返回 CSS，界面样式完整；原 `/theme-caishen/assets/` 素材路径及 `/theme-caishen/extra/` 兼容别名可用。
 - 「今日财运在线」在新旧会话中的高度一致，功德 `+1` 从文字位置上飘。
 - 功德簿主动打开，累计/里程碑/每日趣味签有装饰说明，重置有确认；原生 Web Locks 的同来源双窗点击不丢失，配额失败的本地增量可重试，无锁明确仅本窗保留，关闭彩蛋保留计数。
@@ -79,11 +79,11 @@ git push -u origin main
 
 如果已配置 `origin`，先核对现有地址，不重复添加。以上命令假设当前分支为 `main`，分支名称不同则使用实际名称。
 
-发布 `0.2.3` 时，版本号与标签保持对应：
+发布 `0.2.4` 时，版本号与标签保持对应：
 
 ```bash
-git tag -a v0.2.3 -m '财神打工版 v0.2.3'
-git push origin v0.2.3
+git tag -a v0.2.4 -m '财神打工版 v0.2.4'
+git push origin v0.2.4
 ```
 
 后续版本修改 `package.json.version`、发布记录和文档中的示例版本，再创建新标签；不要移动已经对外分享的标签。
@@ -93,7 +93,7 @@ git push origin v0.2.3
 在隔离的测试环境中，再使用公开地址安装一次：
 
 ```bash
-dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.3'
+dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.4'
 ```
 
 `web` 应替换为实际 CLI profile。桌面端用户建议在 DSH「插件」→「添加插件」填同一地址。确认下载、版本识别、启用和素材加载成功，再把带标签的地址分享给其他用户。

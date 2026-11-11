@@ -112,7 +112,7 @@ CSS 独立源文件按 `base.css` → `hero.css` → `cards.css` → `chrome.css
 
 **文案**：修改 `src/client/locales/zh.cjs` / `en.cjs`，两份键集合必须一致。插件管理页的介绍仍在 `locale/zh.json` 与 `locale/en.json`。图片内的中文不随语言切换。
 
-**布局**：修改 `src/client/styles/` 中对应 CSS，首页与提示词弹窗使用 `.caishen-hero*`、`.caishen-library*`、`.caishen-card*`、`.caishen-editor*` 等选择器。卡片维持单行滚动；窄窗口减少装饰，编辑弹窗缩为单列表单。不要调整构建顺序来临时覆盖样式问题。
+**布局**：修改 `src/client/styles/` 中对应 CSS，首页与提示词弹窗使用 `.caishen-hero*`、`.caishen-library*`、`.caishen-card*`、`.caishen-editor*` 等选择器。卡片维持单行滚动；窄窗口减少装饰，编辑弹窗缩为单列表单。不要在 `lib/` 中直接改样式，也不要调整构建顺序来临时覆盖样式问题。输入卡片读取宿主 `--dsh-chat-content-width` 与 `--dsh-composer-side-clearance`，缺失时分别回退到 `--dsh-composer-card-max-width` 和 `0`；这两个变量和 `[data-conversation-content]` 边界属于宿主私有契约，升级时由 `check-host` 与浏览器矩阵复验。
 
 **素材**：当前运行文件统一放在 `assets/runtime/`。保持同名图片即可沿用 URL；换文件名时同步修改客户端 `asset(...)`、CSS、`assets/manifest.json` 与检查脚本，并确认文件包含在运行包中。PNG 原稿、旧版和预览按用途放入其他素材目录，不增加到运行白名单。
 
@@ -129,7 +129,7 @@ CSS 独立源文件按 `base.css` → `hero.css` → `cards.css` → `chrome.css
 | 账户头像 | `assets/runtime/images/caishen-avatar.webp` |
 | 标题印章 | `assets/runtime/images/logo-shun.webp` |
 
-本次视觉修复恢复原设计带字场景、原 KPI 气泡和功德图片匾额；动态 +1 与无障碍计数仍为 DOM 文本。插画中的金额、效率、书名只作装饰。输入区财神在稳定 `[data-composer-card]` 旁预留完整右列，窄/低窗口回收该列并隐藏装饰。
+本次视觉修复恢复原设计带字场景、原 KPI 气泡和功德图片匾额；动态 +1 与无障碍计数仍为 DOM 文本。插画中的金额、效率、书名只作装饰。已有会话的输入区财神不再预留固定右列：composer 根节点按 `--dsh-chat-content-width` 对齐聊天列，卡片宽度同步；财神以 `[data-conversation-content]` 为边界，按卡片右侧剩余空间在 `min(144px, max(100px, 10vw))` 内缩放，低于最大尺寸一半时隐藏。首页 hero 保留原有预留右列和 `1000px/620px` 断点隐藏规则。
 
 历史参考素材存放在 `assets/source/` 和 `assets/archive/`，不能把文件存在当作正在使用的依据；以客户端实际引用和迁移清单为准。公开来源说明见 [素材说明](ARTWORK.md)。
 

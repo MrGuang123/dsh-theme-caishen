@@ -15,7 +15,7 @@
 ## 功能
 
 - 浅色、深色及跟随系统配色，保留 DSH 的字体与字号设置。
-- 原有带字财神首页、云纹金边、金元宝品牌与工作区图标，输入框右侧完整展示祥云财神。
+- 原有带字财神首页、云纹金边、金元宝品牌与工作区图标；输入卡片与聊天列对齐，右侧祥云财神按剩余空间缩放，空间不足时隐藏。
 - 「今日财运在线」与「功德 +1」彩蛋，点击后 `+1` 从文字位置向上飘。
 - 会话内常驻提示词入口，支持标题/简介/正文搜索、标签分类、收藏和最近使用；首页最多展示六张常用卡片。
 - 全局库与项目库切换；项目按宿主稳定 ID 隔离，卡片、收藏、最近使用与恢复副本各自保存。
@@ -26,6 +26,10 @@
 - 自动、完整、紧凑首页布局，随内容宽度与窗口高度收紧；主题外观支持实时预览、保存、取消及恢复默认。
 - 插画、装饰强度、财运/功德开关与专注模式，提供朱红鎏金、青玉暖纸、墨蓝沉香三组强调配色。
 - 界面文案支持中英文；保留原来的书籍、电脑和气泡装饰文字，中文功德入口恢复原图，动态 +1 仍为文字。
+
+### 0.2.4 输入卡片布局修复
+
+已有会话中输入卡片此前比聊天列宽，右侧财神又会在固定窗口断点突然消失。`0.2.4` 让卡片跟随宿主聊天列宽度，财神按剩余空间缩放，低于最大尺寸一半才隐藏；首页布局与主题数据不变。
 
 ![提示词编辑弹窗](https://raw.githubusercontent.com/MrGuang123/dsh-theme-caishen/main/assets/previews/documentation/prompt-editor.png)
 
@@ -39,7 +43,7 @@
 2. 填写以下地址，点击「安装」：
 
    ```text
-   git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.3
+   git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.4
    ```
 
 3. 安装完成后点击「立即启用」。如 DSH 提示需要重启，按提示操作。
@@ -51,7 +55,7 @@
 使用 DSH 的插件命令，安装到你准备使用的 profile：
 
 ```bash
-dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.3'
+dsh plugin --profile web add 'git+https://github.com/MrGuang123/dsh-theme-caishen.git#v0.2.4'
 ```
 
 将 `web` 换成实际使用的 CLI profile 名称；桌面端用户建议直接从「插件」页面安装。随后按命令提示完成操作，并在 DSH「插件」页面确认本主题已启用。无需自行运行 `pnpm add` 或手工修改 profile 文件。
@@ -205,7 +209,7 @@ macOS 27 的「自动」外观会参考夜览（Night Shift）日程；未设置
 
 开发源码位于 `src/`，`lib/` 为已提交的生成产物；修改源码后执行 `npm run build`。安装和使用插件无需构建或运行 `npm install`。运行包保留实际运行文件，原稿、历史素材、截图及可选 Dock 图标在仓库中查阅和下载；本页使用仓库绝对链接，安装包不重复携带预览图和开发文档。
 
-六阶段已完成：项目库、功德簿、集中宿主适配与兼容验收已落地；真实成本、效率和同步的评估及后续计划见[探索记录](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/EXPLORATION.md)。当前版本为 `0.2.3`，面向 DSH `0.2.x`（已验证 `0.2.1-rc.5` 与 `0.2.2-rc.1`）；隔离安装结果见验证记录，复验方法见[兼容说明](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/COMPATIBILITY.md)。
+六阶段已完成：项目库、功德簿、集中宿主适配与兼容验收已落地；真实成本、效率和同步的评估及后续计划见[探索记录](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/EXPLORATION.md)。当前版本为 `0.2.4`，面向 DSH `0.2.x`（已验证 `0.2.1-rc.5` 与 `0.2.2-rc.1`）；隔离安装结果见验证记录，复验方法见[兼容说明](https://github.com/MrGuang123/dsh-theme-caishen/blob/main/docs/COMPATIBILITY.md)。
 
 ## 许可
 
