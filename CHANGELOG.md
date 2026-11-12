@@ -1,5 +1,13 @@
 # 更新记录
 
+## 0.2.5 · 2026-11-12
+
+- 复查 DSH `0.2.2-rc.2`：`engines.dsh` 的 `>=0.2.1-rc.5 <0.3.0-0` 已覆盖该版本，主题运行功能、样式、素材、提示词与功德数据均无需改动。
+- `scripts/check-host.mjs` 适配 rc.2 的客户端 bundle 格式：插槽检查兼容模板字符串，输入、工作区、会话出口等契约正则容忍压缩后的空白；已验证宿主列表加入 `0.2.2-rc.2`。
+- `scripts/lib/browser-fixture.mjs` 同时支持字符串与模板字符串形式的 composer CSS；rc.2 提取出的模块前缀为 `JZLxKW`，旧宿主格式继续可用。
+- 验证：`check:release`、`check:host` 与 13 组隔离浏览器流程通过，页面脚本异常为 0；在隔离 `DSH_HOME` 中实装 `0.2.5` 包后，主题、品牌、样式与提示词库正常加载。
+- 相对 `0.2.4` 仅更新检查工具、文档和 `adapter/host.cjs` 的注释；已安装 `0.2.4` 的用户升级到 `0.2.5` 后重启 DSH，本地数据不受影响。
+
 ## 0.2.4 · 2026-11-12
 
 - 修复已有会话中输入卡片比宿主聊天列更宽的问题：卡片按 `--dsh-chat-content-width` 对齐聊天列，并保留 `--dsh-composer-side-clearance` 的 16px inline padding；首页 hero 布局保持原样。
